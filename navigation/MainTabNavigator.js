@@ -6,16 +6,16 @@ import {
 } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import DoScreen from '../screens/DoScreen';
+import DelegateScreen from '../screens/DelegateScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+const DoStack = createStackNavigator({
+  Do: DoScreen,
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+DoStack.navigationOptions = {
+  tabBarLabel: 'Do',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -28,12 +28,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const DelegateStack = createStackNavigator({
+  Delegate: DelegateScreen,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Test',
+DelegateStack.navigationOptions = {
+  tabBarLabel: 'Delegate',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -42,12 +42,12 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const ContactsStack = createStackNavigator({
+  Settings: ContactsScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+ContactsStack.navigationOptions = {
+  tabBarLabel: 'Contacts',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -57,7 +57,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  DoStack,
+  DelegateStack,
+  ContactsStack,
 });
