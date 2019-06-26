@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import Welcome from '../screens/Welcome';
+import LoadingScreen from '../screens/LoadingScreen';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Forgot from '../screens/Forgot';
@@ -11,6 +12,7 @@ import Delegate from '../screens/Delegate';
 import Contacts from '../screens/Contacts';
 
 const screens = createStackNavigator({
+    LoadingScreen,
     Welcome,
     Login,
     SignUp,
