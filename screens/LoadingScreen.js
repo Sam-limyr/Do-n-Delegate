@@ -17,7 +17,7 @@ class LoadingScreen extends Component {
             const { navigation } = this.props;
 
             if(user) {
-                navigation.navigate('Do');
+                navigation.navigate('Dashboard');
             } else {
                 /*haven't log in yet; go to the welcome screen. user will then click login with google button*/
                 navigation.navigate('Welcome');
