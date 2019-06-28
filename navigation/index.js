@@ -2,6 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { createDrawerNavigator, createSwitchNavigator, createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import Icon from '@expo/vector-icons/Ionicons';
+import { Platform } from 'react-native';
 
 import Welcome from '../screens/Welcome';
 import Dashboard from '../screens/Dashboard';
@@ -40,9 +41,9 @@ const screens = createStackNavigator({
 //******************************* */
 
 import TabBarIcon from '../components/TabBarIcon';
-import DoScreen from '../screens/Do';
-import DelegateScreen from '../screens/Delegate';
-import ContactsScreen from '../screens/Contacts';
+import DoScreen from '../screens/DoScreen';
+import DelegateScreen from '../screens/DelegateScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 
 const DoStack = createStackNavigator({
   Do: DoScreen,
