@@ -9,6 +9,8 @@ import LoadingScreen from '../screens/LoadingScreen';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Forgot from '../screens/Forgot';
+
+/*
 import Do from '../screens/Do';
 import Delegate from '../screens/Delegate';
 import Contacts from '../screens/Contacts';
@@ -35,10 +37,72 @@ const screens = createStackNavigator({
 });
 */
 
+//******************************* */
+
+import TabBarIcon from '../components/TabBarIcon';
+import DoScreen from '../screens/Do';
+import DelegateScreen from '../screens/Delegate';
+import ContactsScreen from '../screens/Contacts';
+
+const DoStack = createStackNavigator({
+  Do: DoScreen,
+});
+
+DoStack.navigationOptions = {
+  tabBarLabel: 'Do',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const DelegateStack = createStackNavigator({
+  Delegate: DelegateScreen,
+});
+
+DelegateStack.navigationOptions = {
+  tabBarLabel: 'Delegate',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
+const ContactsStack = createStackNavigator({
+  Settings: ContactsScreen,
+});
+
+ContactsStack.navigationOptions = {
+  tabBarLabel: 'Contacts',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+
+/*export default createBottomTabNavigator({
+  DoStack,
+  DelegateStack,
+  ContactsStack,
+});*/
+
+
+//********************* */
+
 const DashboardTabNavigator = createBottomTabNavigator({
-    Delegate,
-    Do,
-    Contacts,
+    DoStack,
+    DelegateStack,
+    ContactsStack,
 },{
     //the navigationOptions on our tab components configure the label in the stack navigator (parent navigator) when used as a component, this is needed for our header title to change.
     navigationOptions:({navigation})=>{
