@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ActivityIndicator, StyleSheet } from 'react-native';
 import firebase from 'firebase';
 
-class LoadingScreen extends Component {
+class Loading extends Component {
 
     static navigationOptions = {
         header: null,
@@ -34,7 +34,7 @@ class LoadingScreen extends Component {
     }
 }
 
-export default LoadingScreen;
+export default Loading;
 
 const styles = StyleSheet.create({
     container: {
