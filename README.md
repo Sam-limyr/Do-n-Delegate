@@ -1,10 +1,32 @@
-# Do-n-Delegate
-An IOS application developed for Orbital 2019, which improves the efficiency of workplace management.
+# Todo App Example
 
-## Guidelines for Hemanshu/Sam
-Step 1 : Clone the repository.
+This is an example of a Complete Todo Application built using React Native.
 
-Step 2 : Master branch is only for working code (ie do not push broken code on master). Instead, regularly push and pull                to/from the development branch instead. Ok to temporarily create more branches, which eventually merge with dev                branch.
+## Getting Started
 
-Step 3 : Run "yarn install" every time you fetch from dev, to install node modules/expo/dependencies automatically on your              machine. The codes on github do not have these dependencies as the node modules file size is a couple hundred mb.              __Do not use "npm install" at all, stick to yarn.__
-         __Use "yarn start" if need be, instead of npm start__
+To get started you will need three things to follow this article.
+
+- Node.js
+- Expo CLI
+
+To install `expo-cli`, please run the following command.
+
+```shell
+npm install -g expo-cli`
+```
+
+To run this app you will have to install the dependencies first and then run the expo command as described below.
+
+```shell
+# to install all dependencies
+
+npm install
+
+# to run
+
+expo-cli start
+```
+
+## Built With
+
+- [React Native](http://facebook.github.io/react-native/): A cross-platform mobile app framework.
