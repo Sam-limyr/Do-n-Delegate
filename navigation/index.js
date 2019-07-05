@@ -1,42 +1,90 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Platform } from 'react-native';
 import { createDrawerNavigator, createSwitchNavigator, createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import Icon from '@expo/vector-icons/Ionicons';
+<<<<<<< HEAD
 import { Platform } from 'react-native';
+=======
+import TabBarIcon from '../components/TabBarIcon';
+>>>>>>> origin/hemanshu_test_branch
 
 import Welcome from '../screens/Welcome';
 import Dashboard from '../screens/Dashboard';
-import LoadingScreen from '../screens/LoadingScreen';
+import Loading from '../screens/Loading';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Forgot from '../screens/Forgot';
+<<<<<<< HEAD
 
 /*
 import Do from '../screens/Do';
 import Delegate from '../screens/Delegate';
 import Contacts from '../screens/Contacts';
+=======
+import DoScreen from '../screens/Do';
+import DelegateScreen from '../screens/Delegate';
+import ContactsScreen from '../screens/Contacts';
+>>>>>>> origin/hemanshu_test_branch
 
-/*
-const screens = createStackNavigator({
-    LoadingScreen,
-    Welcome,
-    Login,
-    SignUp,
-    Forgot,
-    Do,
-    Delegate,
-    Contacts,
-}, {
-  defaultNavigationOptions: {
-    //headerBackImage: <Image source={require('../assets/icons/back.png')} />,
-    headerStyle: {
-        backgroundColor: '#FC9700',
-        borderBottomColor: "transparent",
+
+const Do = createStackNavigator({
+    Do: DoScreen,
+  });
+  
+  Do.navigationOptions = {
+    tabBarLabel: 'Do',
+    tabBarOptions: {
+      activeTintColor: '#FC9700',
+      inactiveTintColor: '#A9A9A9',
     },
-    headerBackTitle: "Do & Delegate",
-  }
-});
-*/
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === 'ios'
+            ? `md-checkmark-circle${focused ? '' : '-outline'}`
+            : 'md-checkmark-circle'
+        }
+      />
+    ),
+  };
+  
+  const Delegate = createStackNavigator({
+    Delegate: DelegateScreen,
+  });
+  
+  Delegate.navigationOptions = {
+    tabBarLabel: 'Delegate',
+    tabBarOptions: {
+      activeTintColor: '#FC9700',
+      inactiveTintColor: '#A9A9A9',
+    },
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'md-megaphone' : 'md-megaphone'}
+        //consider md-people as an alternative
+      />
+    ),
+  };
+  
+  const Contacts = createStackNavigator({
+    Settings: ContactsScreen,
+  });
+  
+  Contacts.navigationOptions = {
+    tabBarLabel: 'Contacts',
+    tabBarOptions: {
+      activeTintColor: '#FC9700',
+      inactiveTintColor: '#A9A9A9',
+    },
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-contacts' : 'md-contacts'}
+      />
+    ),
+  };
 
 //******************************* */
 
@@ -148,7 +196,7 @@ const AppDrawerNavigator = createDrawerNavigator({
 });
 
 const RootNavigator = createSwitchNavigator({
-    LoadingScreen,
+    Loading,
     Welcome,
     Dashboard: AppDrawerNavigator,
 })
