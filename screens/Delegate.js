@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
+import { ListItem } from 'react-native-elements';  
 
 class Delegate extends Component {
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#FBF9F9", justifyContent: "center", alignItems: "center" }}>
-        <Text>Delegate Screen!</Text>
+      <View>
+        <FlatList
+          data={[{ name: "Bob"}, { name: "Tim"}]}
+          keyExtractor={(x, i) => i.toString()}
+          renderItem={({item}) => 
+            <ListItem 
+              roundAvatar
+              avatar = {{}}
+              title = {item.name}
+            />}
+        />
       </View>
     );
   }

@@ -35,9 +35,36 @@ class Welcome extends Component {
                 googleUser.idToken,  
                 googleUser.accessToken
             );
-            // Sign in with credential from the Google user.
-            firebase.auth().signInWithCredential(credential).then(function(){
+            // Sign in async with credential from the Google user.
+            // returns Promise<UserCredential>
+            firebase
+            .auth()
+            .signInWithCredential(credential)
+            .then(function(result){
                 console.log('user signed in');
+                if (result.additionalUserInfo.isNewUser) {
+                    firebase
+                        .firestore()
+                        .collection("users")
+                        .doc(result.user.uid)
+                        .set({
+                            name: result.user.displayName,
+                            gmail: result.user.email,
+                            profile_picture: result.user.photoURL,
+                            created_at: Date.now()
+                        })
+                        .then(function(snapshot) {
+                            // console.log('snapshot, snapshot);
+                        });
+                } else {
+                    firebase
+                        .firestore()
+                        .collection("users")
+                        .doc(result.user.uid)
+                        .update({
+                            last_logged_in:Date.now()
+                        })
+                }
             })
             .catch(function(error) {
               // Handle Errors here.
