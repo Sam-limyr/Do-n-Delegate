@@ -17,10 +17,11 @@ import ContactsScreen from '../screens/Contacts';
 
 const Do = createStackNavigator({
     Do: DoScreen,
-  });
+  }, {headerMode: 'none'});
   
   Do.navigationOptions = {
     tabBarLabel: 'Do',
+    header:null,
     tabBarOptions: {
       activeTintColor: '#FC9700',
       inactiveTintColor: '#A9A9A9',
@@ -39,10 +40,11 @@ const Do = createStackNavigator({
   
   const Delegate = createStackNavigator({
     Delegate: DelegateScreen,
-  });
+  }, {headerMode: 'none'});
   
   Delegate.navigationOptions = {
     tabBarLabel: 'Delegate',
+    header:null,
     tabBarOptions: {
       activeTintColor: '#FC9700',
       inactiveTintColor: '#A9A9A9',
@@ -57,11 +59,12 @@ const Do = createStackNavigator({
   };
   
   const Contacts = createStackNavigator({
-    Settings: ContactsScreen,
-  });
+    Contact: ContactsScreen,
+  }, {headerMode: 'none'});
   
   Contacts.navigationOptions = {
     tabBarLabel: 'Contacts',
+    header:null,
     tabBarOptions: {
       activeTintColor: '#FC9700',
       inactiveTintColor: '#A9A9A9',
@@ -126,4 +129,5 @@ const RootNavigator = createSwitchNavigator({
     Welcome,
     Dashboard: AppDrawerNavigator,
 })
+
 export default createAppContainer(RootNavigator);
