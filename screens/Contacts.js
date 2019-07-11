@@ -30,7 +30,8 @@ class Contacts extends Component {
           lightTheme={true}
           round
         /> 
-        <FlatList
+        <FlatList 
+          backgroundColor = {"FBF9F9"}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
           renderItem = {({item}) => 
