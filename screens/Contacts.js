@@ -1,24 +1,55 @@
 import React, { Component } from 'react';
 import { Text, View, FlatList } from 'react-native';
-import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements';  
+import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements'; 
+import firebase from 'firebase';
+import '@firebase/firestore'; 
 
 class Contacts extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data:[],  
-    };
+    this.currentUserID = firebase.auth().currentUser.uid;
   }
+
+  state = {
+    data:[]
+  };
 
   componentDidMount() {
     this.makeRemoteRequest();
   }
 
   makeRemoteRequest = async () => {
-    const response = await fetch("https://randomuser.me/api?results=10");
-    const json= await response.json();
-    this.setState({data: json.results});
+    var temp = [];
+    var ref = firebase.firestore().collection("users");
+    let a = await ref.doc(`${this.currentUserID}`).get();
+    var friendsArray = a.data().friends;
+    for (var i=0; i<friendsArray.length; i++) {
+      let item = friendsArray[i];
+      let b = await ref.doc(`${item}`).get();
+      let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
+      temp.push(friendObject);
+    }
+    this.setState({data: temp});
   };
+/*
+
+  async makeRemoteRequest() {
+    //the firebase queries are async,that seems to be tripping me out.
+    async function getFriendDetails(friend) {
+      let b = await ref.doc(`${friend}`).get();
+      let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
+      temp.push(friendObject);
+    };
+
+    var that = this;
+    var ref = firebase.firestore().collection("users");
+    let a = await ref.doc(`${this.currentUserID}`).get();
+    var friendsArray = a.data().friends;
+    for (var i=0; i<friendsArray.length; i++) {
+      let item = friendsArray[i];
+      await getFriendDetails(item);
+    }
+  }*/
 
   render() {
     return (
@@ -40,8 +71,8 @@ class Contacts extends Component {
               containerStyle={ {backgroundColor: "#FBF9F9"}}
               bottomDivider={true}
               chevron={true}
-              leftAvatar= {{source: {uri: item.picture.thumbnail} }}
-              title = {`${item.name.first} ${item.name.last}`}
+              leftAvatar= {{source: {uri: item.profile_picture} }}
+              title = {`${item.name}`}
               //could be like employer / employee state
               //subtitle = {item.email}
             />}
