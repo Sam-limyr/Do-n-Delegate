@@ -5,7 +5,9 @@ import Dialog from "react-native-dialog";
 export default class DelegateItem extends Component {
   state = {
     dialogVisible: false,
-    name : "Placeholder Name"
+    employeeName : "Placeholder Name", // name of the employee
+    profilePicture : "", // their profile picture
+    incompleteTasks : 0 // number of incomplete tasks that the employee has
   };
  
   showDialog = () => {
@@ -22,14 +24,14 @@ export default class DelegateItem extends Component {
   };
 
   setName = (inputName) => {
-    this.setState({ name: inputName.toString()})
+    this.setState({ employeeName: inputName.toString()})
   }
  
   render() {
     return (
       <View>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-            <Text style={styles.words}>{ this.state.name.toString() }</Text>
+            <Text style={styles.words}>{ this.state.employeeName.toString() }</Text>
         </TouchableOpacity>
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title children="Delegate a Task and Deadline" />
