@@ -21,48 +21,39 @@ class Contacts extends Component {
   makeRemoteRequest = async () => {
     var temp = [];
     var ref = firebase.firestore().collection("users");
+    var start = new Date().getTime();
     let a = await ref.doc(`${this.currentUserID}`).get();
+    var elapsed = new Date().getTime() - start;
+    console.log("Call to get current user took " + elapsed + " milliseconds");
     var friendsArray = a.data().friends;
     for (var i=0; i<friendsArray.length; i++) {
       let item = friendsArray[i];
+      var start1 = new Date().getTime();
       let b = await ref.doc(`${item}`).get();
+      var elapsed1 = new Date().getTime() - start1;
+      console.log("Call to query took " + elapsed1 + " milliseconds");
       let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
       temp.push(friendObject);
     }
     this.setState({data: temp});
   };
-/*
 
-  async makeRemoteRequest() {
-    //the firebase queries are async,that seems to be tripping me out.
-    async function getFriendDetails(friend) {
-      let b = await ref.doc(`${friend}`).get();
-      let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
-      temp.push(friendObject);
-    };
-
-    var that = this;
-    var ref = firebase.firestore().collection("users");
-    let a = await ref.doc(`${this.currentUserID}`).get();
-    var friendsArray = a.data().friends;
-    for (var i=0; i<friendsArray.length; i++) {
-      let item = friendsArray[i];
-      await getFriendDetails(item);
-    }
-  }*/
+  renderHeader = () => {
+    return <SearchBar 
+        containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
+        inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
+        placeholder="Search"
+        lightTheme={true}
+        round
+      />;
+  };
 
   render() {
     return (
-      <View>
-        <SearchBar 
-          containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
-          inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
-          placeholder="Search"
-          lightTheme={true}
-          round
-        /> 
+      <View style={{backgroundColor: "#FC9700"}}>
         <FlatList 
           backgroundColor = {"FBF9F9"}
+          ListHeaderComponent = {this.renderHeader}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
           renderItem = {({item}) => 
