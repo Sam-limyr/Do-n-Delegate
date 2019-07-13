@@ -24,7 +24,7 @@ export default class DialogBox extends Component {
     return (
       <View>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-          <Text>Add New Employee</Text>
+          <Text style={styles.words}>Add New Employee</Text>
         </TouchableOpacity>
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title children="Type in new employee's name" />
@@ -45,19 +45,25 @@ container: {
 },
 button: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10
-},
-countContainer: {
-    alignItems: 'center',
-    padding: 10
-},
-countText: {
-    color: '#FF00FF'
+    backgroundColor: '#FCCA00',
+    borderBottomEndRadius: 10,
+    borderBottomStartRadius: 10,
+    borderColor: '#FC8F00',
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
+    borderWidth: 6,
+    marginHorizontal: 20,
+    marginVertical: 25,
+    padding: 25
 },
 inputBox: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1
+},
+words: {
+    color: '#333333',
+    fontSize: 16,
+    fontWeight: 'bold'
 }
 })
