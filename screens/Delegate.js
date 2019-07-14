@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import DialogBox from '../components/DialogBox';
+import AddNewEmployeeItem from '../components/AddNewEmployeeItem';
 import DelegateItem from '../components/DelegateItem';
 
 class Delegate extends Component {
@@ -27,7 +27,7 @@ class Delegate extends Component {
         </View>
 
         <View>
-          <DialogBox />
+          <AddNewEmployeeItem />
         </View>
       </View>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Alert, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Dialog from "react-native-dialog";
  
 export default class DoItem extends Component {
@@ -10,9 +10,9 @@ export default class DoItem extends Component {
     taskName : "Sweep the floor", // is the task name provided by employer
     deadlineTime : 0, // is a number pulled via a Date() object
     taskDescription : "Sweep the third-floor corridor outside my office.", // is the additional information provided by employer
-    taskStatus : "unread", // 3 states: "unread", "in progress", and "completed"
+    taskStatus : "Unread", // 3 states: "Unread", "In Progress", and "Completed"
     taskNotAcknowledged : true, // for toggling between display of 'acknowledge task' button
-    taskAcknowledged : false, //        and the 'in progress/completed' switch
+    taskAcknowledged : false, //        and the 'In Progress/Completed' switch
     switchValue : false // is whether the switch is on or off
   };
  
@@ -24,27 +24,27 @@ export default class DoItem extends Component {
     this.setState({ dialogVisible: false });
   };
 
-  setName = (inputName) => {
-    this.setState({ employerName: inputName.toString()});
+  setEmployer = (inputName, inputPicture) => {
+    this.setState({ employerName: inputName.toString() });
+    this.setState({ profilePicture: inputPicture.toString() });
+    // Backend: for use in setting employer properties
   };
 
+  setTask = (inputName, inputTime, inputDescription) => {
+    this.setState({ taskName: inputName.toString() });
+    this.setState({ deadlineTime: inputTime.parseInt() });
+    this.setState({ taskDescription: inputDescription.toString() });
+    // Backend: for use in setting task properties
+  }
+
   statusAcknowledge = () => {
-    this.setState({ taskStatus : "in progress" });
+    this.setState({ taskStatus : "In Progress" });
     this.setState({ taskNotAcknowledged : false});
     this.setState({ taskAcknowledged : true });
     // Backend: feedback to employer that task has been acknowledged
   };
 
-  statusChange = () => {
-    if (this.state.taskStatus == "in progress") {
-        this.setState({ taskStatus : "completed" });
-        // Backend: feedback to employer that task has been completed
-    } else {
-        this.setState({ taskStatus : "in progress" });
-    }
-  };
-
-  valueChange = () => {
+  switchChange = () => {
       if (this.state.switchValue) {
           this.setState({ switchValue : false });
       } else {
@@ -52,9 +52,44 @@ export default class DoItem extends Component {
       }
   };
 
-  switchChange = () => {
-      this.statusChange();
-      this.valueChange();
+  statusChange = () => {
+    if (this.state.taskStatus == "In Progress") {
+        Alert.alert(
+        'Confirm completion of task',
+        'By confirming the completion of this task, a message will be sent to your employer.',
+        [
+          { text: 'Cancel' },
+          { text: 'Confirm', onPress: () => this.handleConfirm() },
+        ],
+        { cancelable: true },
+      );
+    } else {
+      Alert.alert(
+        'Confirm re-marking of task as incomplete',
+        'By re-marking this task as incomplete, a message will be sent to your employer.',
+        [
+          { text: 'Cancel' },
+          { text: 'Confirm', onPress: () => this.handleUnConfirm() },
+        ],
+        { cancelable: true },
+      );
+    }
+  };
+
+  handleConfirm = () => {
+    this.switchChange();
+    this.setState({ taskStatus : "Completed" });
+    // Backend: feedback to employer that task has been completed
+    // Backend: list task as Completed
+    // Frontend: display task as Completed in Do menu
+  }
+
+  handleUnConfirm = () => {
+    this.switchChange();
+    this.setState({ taskStatus : "In Progress" });
+    // Backend: feedback to employer that task has been re-marked as In Progress
+    // Backend: list task as incomplete and now still in progress
+    // Frontend: display task as incomplete and In Progress in Do menu
   }
  
   render() {
@@ -68,16 +103,19 @@ export default class DoItem extends Component {
         <Dialog.Container visible={this.state.dialogVisible} >
             <Dialog.Title style={styles.taskName}>{ this.state.taskName }</Dialog.Title>
             <Dialog.Description style={styles.taskDescription}>{ this.state.taskDescription }</Dialog.Description>
-            <Text style={styles.words}>Please acknowledge the task.</Text>
+            <Text style={styles.words}>Please acknowledge this task before proceeding.</Text>
           <Dialog.Button label="Acknowledge Task" onPress={this.statusAcknowledge} />
         </Dialog.Container>}
 
         {this.state.taskAcknowledged &&
-        <Dialog.Container visible={this.state.dialogVisible} >
+        <Dialog.Container visible={this.state.dialogVisible} style={styles.container}>
             <Dialog.Title style={styles.taskName}>{ this.state.taskName }</Dialog.Title>
             <Dialog.Description style={styles.taskDescription}>{ this.state.taskDescription }</Dialog.Description>
-            <Dialog.Switch style={styles.switch} onChange={this.switchChange} value={this.state.switchValue} />
-            <Text style={styles.taskStatus}>{ this.state.taskStatus }</Text>
+            <Text style={styles.taskStatus}>Task Status:</Text>
+            <View style={styles.container}>
+              <Text style={styles.taskStatus}>{ this.state.taskStatus }</Text>
+              <Dialog.Switch style={styles.switch} onChange={this.statusChange} value={this.state.switchValue} />
+            </ View>
           <Dialog.Button label="Close" onPress={this.hideDialog} />
         </Dialog.Container>}
       </View>
@@ -85,6 +123,7 @@ export default class DoItem extends Component {
   }
 }
 
+// TODO: transfer styles from all components into a separate Styles.js
 const styles = StyleSheet.create({
 
 button: {
@@ -101,20 +140,16 @@ button: {
     padding: 25
 },
 container: {
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 15
+    flexDirection: "row",
+    paddingHorizontal: 0,
+    paddingVertical: 5
 },
-
-/* lines 79-82
-            <View style={styles.container}>
-                <Dialog.Switch style={styles.switch} onChange={this.switchChange} value={this.state.switchValue} />
-                <Text style={styles.taskStatus}>{ this.state.taskStatus }</Text>
-            </ View>
-*/
-dialogContainer: { // style to be used for Dialog.container
+dialogContainer: { // style to be used for Dialog.container; haven't figured it out yet
     height: 300,
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     width: 150
 },
 inputBox: {
@@ -123,10 +158,8 @@ inputBox: {
     borderWidth: 1
 },
 switch: {
-    color: '#FFBB00',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20
+    justifyContent: 'flex-start',
 },
 taskDescription: {
     color: '#333333',
@@ -136,11 +169,10 @@ taskDescription: {
 },
 taskStatus: {
     flexDirection: 'row',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-    marginVertical: 10
+    justifyContent: 'flex-end',
+    marginHorizontal: 30
 },
 taskName: {
     color: '#111111',
@@ -149,7 +181,6 @@ taskName: {
     justifyContent: 'center',
     marginBottom: 15,
     marginHorizontal: 20,
-    marginTop: 5
 },
 words: {
     color: '#333333',
