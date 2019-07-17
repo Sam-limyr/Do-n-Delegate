@@ -19,24 +19,24 @@ class Contacts extends Component {
   }
 
   makeRemoteRequest = async () => {
-    var temp = [];
-    var ref = firebase.firestore().collection("users");
+    //retrieve all the documents in contacts collection
     var start = new Date().getTime();
-    let a = await ref.doc(`${this.currentUserID}`).get();
+    const friendsArray = [];
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(`${this.currentUserID}`)
+      .collection("contacts")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+          friendsArray.push(doc.data());
+        });
+      });
     var elapsed = new Date().getTime() - start;
     console.log("Call to get current user took " + elapsed + " milliseconds");
-    var friendsArray = a.data().friends;
-    for (var i=0; i<friendsArray.length; i++) {
-      let item = friendsArray[i];
-      var start1 = new Date().getTime();
-      let b = await ref.doc(`${item}`).get();
-      var elapsed1 = new Date().getTime() - start1;
-      console.log("Call to query took " + elapsed1 + " milliseconds");
-      let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
-      temp.push(friendObject);
-    }
-    this.setState({data: temp});
-  };
+    this.setState({data: friendsArray});
+  }
 
   renderHeader = () => {
     return <SearchBar 
