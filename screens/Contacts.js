@@ -50,8 +50,6 @@ class Contacts extends Component {
   }
 
   _renderItem(item) {
-    console.log("lol");
-    console.log(item);
     return (
     <ListItem 
       roundAvatar

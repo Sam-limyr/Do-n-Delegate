@@ -6,6 +6,17 @@ import {
 } from 'react-native';
 
 class ContactDetails extends Component {
+
+  static navigationOptions = ({navigation, navigationOptions}) => {
+    return {
+      title: "hello",
+      headerStyle: {
+        backgroundColor: '#FC9700',
+      },
+      headerTintColor: '#FFFFFF',
+    };
+  };
+
   render() {
     return (
       <View style={styles.container}>

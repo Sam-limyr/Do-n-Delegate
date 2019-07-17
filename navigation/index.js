@@ -60,13 +60,18 @@ const Do = createStackNavigator({
   };
   
   const Contacts = createStackNavigator({
-    Contact: ContactsScreen,
+    Contact: {
+      screen: ContactsScreen,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
     ContactDetails: ContactDetailsScreen,
-  }, {headerMode: 'none'});
+  });
   
   Contacts.navigationOptions = {
     tabBarLabel: 'Contacts',
-    header:null,
+    //header:null,
     tabBarOptions: {
       activeTintColor: '#FC9700',
       inactiveTintColor: '#A9A9A9',
