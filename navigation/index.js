@@ -13,6 +13,7 @@ import Forgot from '../screens/Forgot';
 import DoScreen from '../screens/Do';
 import DelegateScreen from '../screens/Delegate';
 import ContactsScreen from '../screens/Contacts';
+import ContactDetailsScreen from '../screens/ContactDetails';
 
 
 const Do = createStackNavigator({
@@ -59,12 +60,18 @@ const Do = createStackNavigator({
   };
   
   const Contacts = createStackNavigator({
-    Contact: ContactsScreen,
-  }, {headerMode: 'none'});
+    Contact: {
+      screen: ContactsScreen,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    ContactDetails: ContactDetailsScreen,
+  });
   
   Contacts.navigationOptions = {
     tabBarLabel: 'Contacts',
-    header:null,
+    //header:null,
     tabBarOptions: {
       activeTintColor: '#FC9700',
       inactiveTintColor: '#A9A9A9',
