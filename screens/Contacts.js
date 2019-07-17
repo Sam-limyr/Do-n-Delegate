@@ -38,14 +38,29 @@ class Contacts extends Component {
     this.setState({data: friendsArray});
   }
 
-  renderHeader = () => {
-    return <SearchBar 
-        containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
-        inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
-        placeholder="Search"
-        lightTheme={true}
-        round
-      />;
+  _renderHeader = () => {
+    return (
+    <SearchBar 
+      containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
+      inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
+      placeholder="Search"
+      lightTheme={true}
+      round
+    />);
+  };
+
+  _renderItem(item) {
+    return (
+    <ListItem 
+      roundAvatar
+      containerStyle={ {backgroundColor: "#FBF9F9"}}
+      bottomDivider={true}
+      chevron={true}
+      leftAvatar= {{source: {uri: item.profile_picture} }}
+      title = {`${item.name}`}
+      //could be like employer / employee state
+      //subtitle = {item.email}
+    />);
   };
 
   render() {
@@ -53,20 +68,10 @@ class Contacts extends Component {
       <View style={{backgroundColor: "#FC9700"}}>
         <FlatList 
           backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this.renderHeader}
+          ListHeaderComponent = {this._renderHeader}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
-          renderItem = {({item}) => 
-            <ListItem 
-              roundAvatar
-              containerStyle={ {backgroundColor: "#FBF9F9"}}
-              bottomDivider={true}
-              chevron={true}
-              leftAvatar= {{source: {uri: item.profile_picture} }}
-              title = {`${item.name}`}
-              //could be like employer / employee state
-              //subtitle = {item.email}
-            />}
+          renderItem = {({item}) => this._renderItem(item)}
         />
       </View>
     )
