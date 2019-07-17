@@ -47,9 +47,11 @@ class Contacts extends Component {
       lightTheme={true}
       round
     />);
-  };
+  }
 
   _renderItem(item) {
+    console.log("lol");
+    console.log(item);
     return (
     <ListItem 
       roundAvatar
@@ -57,11 +59,12 @@ class Contacts extends Component {
       bottomDivider={true}
       chevron={true}
       leftAvatar= {{source: {uri: item.profile_picture} }}
-      title = {`${item.name}`}
+      title={`${item.name}`}
+      onPress={() => this.props.navigation.navigate("ContactDetails", {item})}
       //could be like employer / employee state
       //subtitle = {item.email}
     />);
-  };
+  }
 
   render() {
     return (
@@ -71,6 +74,7 @@ class Contacts extends Component {
           ListHeaderComponent = {this._renderHeader}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
+          extraData={this.state}
           renderItem = {({item}) => this._renderItem(item)}
         />
       </View>

@@ -13,6 +13,7 @@ import Forgot from '../screens/Forgot';
 import DoScreen from '../screens/Do';
 import DelegateScreen from '../screens/Delegate';
 import ContactsScreen from '../screens/Contacts';
+import ContactDetailsScreen from '../screens/ContactDetails';
 
 
 const Do = createStackNavigator({
@@ -60,6 +61,7 @@ const Do = createStackNavigator({
   
   const Contacts = createStackNavigator({
     Contact: ContactsScreen,
+    ContactDetails: ContactDetailsScreen,
   }, {headerMode: 'none'});
   
   Contacts.navigationOptions = {
