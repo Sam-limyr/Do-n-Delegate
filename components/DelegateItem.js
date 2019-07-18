@@ -5,18 +5,14 @@ import Dialog from "react-native-dialog";
 export default class DelegateItem extends Component {
   state = {
     dialogVisible: false,
-    employeeName : "Placeholder Name", // name of the employee
-    profilePicture : "", // their profile picture
-    incompleteTasks : 0, // number of incomplete tasks that the employee has
-    currentTaskName: "**No name provided**",
-    currentTaskDescription: "**No description provided**",
-    currentTaskDeadline: "**No deadline provided**"
+    incompleteTasks : 0, // number of incomplete tasks that the employee has; not using?
+    currentTaskName: "",
+    currentTaskDescription: "None",
+    currentTaskDeadline: ""
   };
 
-  setEmployee = (inputName, inputPicture) => {
-    this.setState({ employeeName: inputName.toString() });
-    this.setState({ profilePicture: inputPicture.toString() });
-    // Backend: for use in setting employee properties
+  setNativeProps = (nativeProps) => {
+    this._root.setNativeProps(nativeProps);
   };
  
   showDialog = () => {
@@ -25,26 +21,46 @@ export default class DelegateItem extends Component {
 
   hideDialog = () => {
     this.setState({ dialogVisible: false });
+    this.resetTaskState();
   }
 
   resetTaskState = () => { // resets all task fields to placeholders. These may be changed as fit.
-    this.setState({ currentTaskName: "**No name provided**" });
-    this.setState({ currentTaskDescription: "**No description provided**" });
-    this.setState({ currentTaskDeadline: "**No deadline provided**" });
+    this.setState({ currentTaskName: "" });
+    this.setState({ currentTaskDescription: "None" });
+    this.setState({ currentTaskDeadline: "" });
   }
  
   handleSubmit = () => {
-    Alert.alert(
-      'Confirm details of task:',
-      'Task Name: ' + this.state.currentTaskName + '\nTask Description: ' + 
-          this.state.currentTaskDescription + '\nTask Deadline: ' + this.state.currentTaskDeadline,
-      [
-        { text: 'Cancel' },
-        { text: 'Confirm', onPress: () => this.sendNewTask() },
-      ],
-      { cancelable: true },
-    );
-    this.resetTaskState();
+    if (this.state.currentTaskName == "" ) {
+      Alert.alert(
+        'Please enter a task name.',
+        '',
+        [
+          { text: 'Return' },
+        ],
+        { cancelable: true },
+      )
+    } else if (this.state.currentTaskDeadline == "") {
+      Alert.alert(
+        'Please enter a task deadline.',
+        '',
+        [
+          { text: 'Return' },
+        ],
+        { cancelable: true },
+      )
+    } else {
+      Alert.alert(
+        'Confirm details of task:',
+        'Task Name: ' + this.state.currentTaskName + '\nTask Description: ' + 
+            this.state.currentTaskDescription + '\nTask Deadline: ' + this.state.currentTaskDeadline,
+        [
+          { text: 'Cancel' },
+          { text: 'Confirm', onPress: () => this.sendNewTask() },
+        ],
+        { cancelable: true },
+      );
+    }
   };
  
   sendNewTask = () => {
@@ -61,9 +77,10 @@ export default class DelegateItem extends Component {
  
   render() {
     return (
-      <View>
+      <View ref={component => this._root = component} {...this.props}>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-            <Text style={styles.words}>{ this.state.employeeName.toString() }</Text>
+            <Text style={styles.words}>{ this.props.employeeName }</Text>
+            <Text style={styles.words}>{ this.props.profilePicture }</Text>
         </TouchableOpacity>
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title children="Delegate a Task and Deadline" />

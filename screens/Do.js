@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
-import { ListItem } from 'react-native-elements';  
 import DoItem from '../components/DoItem.js';
 
 class Do extends Component {
   state = {
-    data: [{name: 'John', picture: 'Picture', taskName: 'Task Name',
-    taskDescription: 'Task Description', taskDeadline: 'Task Deadline'},
-    {name: '1John', picture: '1Picture', taskName: '1Task Name',
-    taskDescription: '1Task Description', taskDeadline: '1Task Deadline'}]
-  }
-
-  setProps = (inputEmployerName, inputPicture, inputTaskName, inputTime, inputDescription) => {
-    this.setState({ employerName: inputEmployerName.toString() });
-    this.setState({ profilePicture: inputPicture.toString() });
-    this.setState({ taskName: inputTaskName.toString() });
-    this.setState({ taskDeadline: inputTime.parseInt() });
-    this.setState({ taskDescription: inputDescription.toString() });
+    data: [{name: 'John Smith', picture: 'His Picture', taskName: 'Submit IVS Report',
+    taskDescription: 'Finish up the last 3 pages of the report and put it on my desk.',
+    taskDeadline: '8 am on Tuesday'},
+    {name: 'Margaret Chan', picture: 'Her Picture', taskName: 'Clean the storeroom cabinets',
+    taskDescription: 'Dust and wipe the 5 steel cabinets in the corner of the storeroom.',
+    taskDeadline: '3 pm today'}]
   }
 
   render() {
@@ -28,16 +21,12 @@ class Do extends Component {
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
           renderItem = {({item}) => 
-            <DoItem  // Suspicion as to why this might not be working: 
-                     // this assignment might be called before state is assigned in DoItem
-                     // therefore state's assignments are overwriting these assignments.
-                     // Possible fix: Use constructor in DoItem
-                     // Alternative: setState of state from here
-              employerName={item.name}
-              profilePicture={item.picture}
-              taskName={item.taskName}
-              taskDescription={item.taskDescription}
-              taskDeadline={item.taskDeadline}
+            <DoItem
+              employerName={item.name} // is the employer's name
+              profilePicture={item.picture} // is the profile picture of the employer
+              taskName={item.taskName} // is the task name provided by employer
+              taskDescription={item.taskDescription} // is the additional information provided by employer
+              taskDeadline={item.taskDeadline} // is a number pulled via a Date() object
             />
           }
         />

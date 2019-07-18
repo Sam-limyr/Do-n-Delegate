@@ -5,11 +5,6 @@ import Dialog from "react-native-dialog";
 export default class DoItem extends Component {
   state = {
     dialogVisible: false,
-    employerName : "hey",
-    profilePicture : "",
-    taskName : "Sweep the floor", // is the task name provided by employer
-    taskDeadline : 0, // is a number pulled via a Date() object
-    taskDescription : "Sweep the third-floor corridor outside my office.", // is the additional information provided by employer
     taskStatus : "Unread", // 3 states: "Unread", "In Progress", and "Completed"
     taskNotAcknowledged : true, // for toggling between display of 'acknowledge task' button
     taskAcknowledged : false, //        and the 'In Progress/Completed' switch
@@ -26,15 +21,6 @@ export default class DoItem extends Component {
 
   hideDialog = () => {
     this.setState({ dialogVisible: false });
-  };
-
-  setProps = (inputEmployerName, inputPicture, inputTaskName, inputTime, inputDescription) => {
-    this.setState({ employerName: inputEmployerName.toString() });
-    this.setState({ profilePicture: inputPicture.toString() });
-    this.setState({ taskName: inputTaskName.toString() });
-    this.setState({ taskDeadline: inputTime.parseInt() });
-    this.setState({ taskDescription: inputDescription.toString() });
-    // Backend: for use in setting properties
   };
 
   statusAcknowledge = () => {
@@ -96,26 +82,27 @@ export default class DoItem extends Component {
     return (
       <View ref={component => this._root = component} {...this.props}>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-            <Text style={styles.words}>{ this.state.employerName }</Text>
+            <Text style={styles.words}>{ this.props.employerName }</Text>
+            <Text style={styles.words}>{ this.props.profilePicture }</Text>
         </TouchableOpacity>
 
         {this.state.taskNotAcknowledged &&
         <Dialog.Container visible={this.state.dialogVisible} >
-            <Dialog.Title style={styles.taskName}>{ this.state.taskName }</Dialog.Title>
-            <Dialog.Description style={styles.taskDescription}>{ this.state.taskDescription }</Dialog.Description>
+            <Dialog.Title style={styles.taskName}>{ this.props.taskName }</Dialog.Title>
+            <Dialog.Description style={styles.taskDescription}>{ this.props.taskDescription }</Dialog.Description>
             <Text style={styles.words}>Please acknowledge this task before proceeding.</Text>
           <Dialog.Button label="Acknowledge Task" onPress={this.statusAcknowledge} />
         </Dialog.Container>}
 
         {this.state.taskAcknowledged &&
         <Dialog.Container visible={this.state.dialogVisible} style={styles.container}>
-            <Dialog.Title style={styles.taskName}>{ this.state.taskName }</Dialog.Title>
-            <Dialog.Description style={styles.taskDescription}>{ this.state.taskDescription }</Dialog.Description>
+            <Dialog.Title style={styles.taskName}>{ this.props.taskName }</Dialog.Title>
+            <Dialog.Description style={styles.taskDescription}>{ this.props.taskDescription }</Dialog.Description>
             <Text style={styles.taskStatus}>Task Status:</Text>
             <View style={styles.container}>
               <Text style={styles.taskStatus}>{ this.state.taskStatus }</Text>
               <Dialog.Switch style={styles.switch} onChange={this.statusChange} value={this.state.switchValue} />
-            </ View>
+            </View>
           <Dialog.Button label="Close" onPress={this.hideDialog} />
         </Dialog.Container>}
       </View>
