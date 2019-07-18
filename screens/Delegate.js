@@ -30,7 +30,7 @@ class Delegate extends Component {
             keyExtractor = {(item, index) => index.toString()}
             data = {this.state.data}
             renderItem = {({item}) => 
-              <DelegateItem
+              <AddNewTaskItem
                 employeeName={item.name} // is the employee's name
                 profilePicture={item.picture} // is the profile picture of the employee
               />

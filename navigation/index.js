@@ -14,7 +14,7 @@ import DoScreen from '../screens/Do';
 import DelegateScreen from '../screens/Delegate';
 import ContactsScreen from '../screens/Contacts';
 import ContactDetailsScreen from '../screens/ContactDetails';
-import DelegateEmployeeScreen from '../screens/DelegateEmployee';
+import DelegateEmployeeScreen from '../screens/DelegateEmployeeScreen';
 
 
 const Do = createStackNavigator({
