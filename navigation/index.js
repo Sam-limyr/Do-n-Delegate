@@ -14,6 +14,7 @@ import DoScreen from '../screens/Do';
 import DelegateScreen from '../screens/Delegate';
 import ContactsScreen from '../screens/Contacts';
 import ContactDetailsScreen from '../screens/ContactDetails';
+import DelegateEmployeeScreen from '../screens/DelegateEmployee';
 
 
 const Do = createStackNavigator({
@@ -40,8 +41,14 @@ const Do = createStackNavigator({
   };
   
   const Delegate = createStackNavigator({
-    Delegate: DelegateScreen,
-  }, {headerMode: 'none'});
+    Delegate: {
+      screen: DelegateScreen,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    DelegateEmployee: DelegateEmployeeScreen,
+  });
   
   Delegate.navigationOptions = {
     tabBarLabel: 'Delegate',
