@@ -19,55 +19,61 @@ class Contacts extends Component {
   }
 
   makeRemoteRequest = async () => {
-    var temp = [];
-    var ref = firebase.firestore().collection("users");
+    //retrieve all the documents in contacts collection
     var start = new Date().getTime();
-    let a = await ref.doc(`${this.currentUserID}`).get();
+    const friendsArray = [];
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(`${this.currentUserID}`)
+      .collection("contacts")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+          friendsArray.push(doc.data());
+        });
+      });
     var elapsed = new Date().getTime() - start;
     console.log("Call to get current user took " + elapsed + " milliseconds");
-    var friendsArray = a.data().friends;
-    for (var i=0; i<friendsArray.length; i++) {
-      let item = friendsArray[i];
-      var start1 = new Date().getTime();
-      let b = await ref.doc(`${item}`).get();
-      var elapsed1 = new Date().getTime() - start1;
-      console.log("Call to query took " + elapsed1 + " milliseconds");
-      let friendObject = {name: b.data().name, profile_picture: b.data().profile_picture};
-      temp.push(friendObject);
-    }
-    this.setState({data: temp});
-  };
+    this.setState({data: friendsArray});
+  }
 
-  renderHeader = () => {
-    return <SearchBar 
-        containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
-        inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
-        placeholder="Search"
-        lightTheme={true}
-        round
-      />;
-  };
+  _renderHeader = () => {
+    return (
+    <SearchBar 
+      containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
+      inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
+      placeholder="Search"
+      lightTheme={true}
+      round
+    />);
+  }
+
+  _renderItem(item) {
+    return (
+    <ListItem 
+      roundAvatar
+      containerStyle={ {backgroundColor: "#FBF9F9"}}
+      bottomDivider={true}
+      chevron={true}
+      leftAvatar= {{source: {uri: item.profile_picture} }}
+      title={`${item.name}`}
+      onPress={() => this.props.navigation.navigate("ContactDetails", {item})}
+      //could be like employer / employee state
+      //subtitle = {item.email}
+    />);
+  }
 
   render() {
     return (
       <View style={{backgroundColor: "#FC9700"}}>
         <FlatList 
           backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this.renderHeader}
+          ListHeaderComponent = {this._renderHeader}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
-          renderItem = {({item}) => 
-            <ListItem 
-              roundAvatar
-              containerStyle={ {backgroundColor: "#FBF9F9"}}
-              bottomDivider={true}
-              chevron={true}
-              leftAvatar= {{source: {uri: item.profile_picture} }}
-              title = {`${item.name}`}
-              //could be like employer / employee state
-              //subtitle = {item.email}
-            />
-          }
+          extraData={this.state}
+          renderItem = {({item}) => this._renderItem(item)}
         />
       </View>
     )

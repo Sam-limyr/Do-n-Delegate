@@ -51,7 +51,7 @@ class Welcome extends Component {
                             name: result.user.displayName,
                             gmail: result.user.email,
                             profile_picture: result.user.photoURL,
-                            created_at: Date.now()
+                            created_at: firebase.firestore.FieldValue.serverTimestamp()
                         })
                         .then(function(snapshot) {
                             // console.log('snapshot, snapshot);
@@ -62,7 +62,7 @@ class Welcome extends Component {
                         .collection("users")
                         .doc(result.user.uid)
                         .update({
-                            last_logged_in:Date.now()
+                            last_logged_in: firebase.firestore.FieldValue.serverTimestamp()
                         })
                 }
             })
