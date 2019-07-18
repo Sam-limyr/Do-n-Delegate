@@ -10,6 +10,8 @@ export default class DoItem extends Component {
     taskAcknowledged : false, //        and the 'In Progress/Completed' switch
     switchValue : false // is whether the switch is on or off
   };
+  
+  // TO-DO: Change TouchableOpacity to ListItem?
 
   setNativeProps = (nativeProps) => {
     this._root.setNativeProps(nativeProps);
