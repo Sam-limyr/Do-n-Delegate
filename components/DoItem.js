@@ -5,15 +5,19 @@ import Dialog from "react-native-dialog";
 export default class DoItem extends Component {
   state = {
     dialogVisible: false,
-    employerName : "Another Placeholder",
+    employerName : "hey",
     profilePicture : "",
     taskName : "Sweep the floor", // is the task name provided by employer
-    deadlineTime : 0, // is a number pulled via a Date() object
+    taskDeadline : 0, // is a number pulled via a Date() object
     taskDescription : "Sweep the third-floor corridor outside my office.", // is the additional information provided by employer
     taskStatus : "Unread", // 3 states: "Unread", "In Progress", and "Completed"
     taskNotAcknowledged : true, // for toggling between display of 'acknowledge task' button
     taskAcknowledged : false, //        and the 'In Progress/Completed' switch
     switchValue : false // is whether the switch is on or off
+  };
+
+  setNativeProps = (nativeProps) => {
+    this._root.setNativeProps(nativeProps);
   };
  
   showDialog = () => {
@@ -24,18 +28,14 @@ export default class DoItem extends Component {
     this.setState({ dialogVisible: false });
   };
 
-  setEmployer = (inputName, inputPicture) => {
-    this.setState({ employerName: inputName.toString() });
+  setProps = (inputEmployerName, inputPicture, inputTaskName, inputTime, inputDescription) => {
+    this.setState({ employerName: inputEmployerName.toString() });
     this.setState({ profilePicture: inputPicture.toString() });
-    // Backend: for use in setting employer properties
-  };
-
-  setTask = (inputName, inputTime, inputDescription) => {
-    this.setState({ taskName: inputName.toString() });
-    this.setState({ deadlineTime: inputTime.parseInt() });
+    this.setState({ taskName: inputTaskName.toString() });
+    this.setState({ taskDeadline: inputTime.parseInt() });
     this.setState({ taskDescription: inputDescription.toString() });
-    // Backend: for use in setting task properties
-  }
+    // Backend: for use in setting properties
+  };
 
   statusAcknowledge = () => {
     this.setState({ taskStatus : "In Progress" });
@@ -94,7 +94,7 @@ export default class DoItem extends Component {
  
   render() {
     return (
-      <View>
+      <View ref={component => this._root = component} {...this.props}>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
             <Text style={styles.words}>{ this.state.employerName }</Text>
         </TouchableOpacity>

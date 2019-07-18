@@ -66,7 +66,8 @@ class Contacts extends Component {
               title = {`${item.name}`}
               //could be like employer / employee state
               //subtitle = {item.email}
-            />}
+            />
+          }
         />
       </View>
     )
