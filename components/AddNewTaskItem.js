@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Alert, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Dialog from "react-native-dialog";
  
-export default class DelegateItem extends Component {
+export default class AddNewTaskItem extends Component {
   state = {
     dialogVisible: false,
     incompleteTasks : 0, // number of incomplete tasks that the employee has; not using?
@@ -10,6 +10,8 @@ export default class DelegateItem extends Component {
     currentTaskDescription: "None",
     currentTaskDeadline: ""
   };
+
+  // TO-DO: Change TouchableOpacity to ListItem?
 
   setNativeProps = (nativeProps) => {
     this._root.setNativeProps(nativeProps);

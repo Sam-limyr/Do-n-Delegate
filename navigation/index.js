@@ -40,8 +40,13 @@ const Do = createStackNavigator({
   };
   
   const Delegate = createStackNavigator({
-    Delegate: DelegateScreen,
-  }, {headerMode: 'none'});
+    Delegate: {
+      screen: DelegateScreen,
+      navigationOptions: () => ({
+        header: null
+      }),
+    },
+    DelegateEmployee: DelegateEmployeeScreen
   
   Delegate.navigationOptions = {
     tabBarLabel: 'Delegate',
