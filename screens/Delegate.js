@@ -31,6 +31,7 @@ class Delegate extends Component {
             data = {this.state.data}
             renderItem = {({item}) => 
               <AddNewTaskItem
+                onPress={() => this.props.navigation.navigate("ContactDetails", {item})}
                 employeeName={item.name} // is the employee's name
                 profilePicture={item.picture} // is the profile picture of the employee
               />

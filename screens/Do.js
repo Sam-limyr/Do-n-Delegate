@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements'; 
+import { FlatList, View, Dimensions } from 'react-native';
+import { ListItem, SearchBarIOS, SearchBar, ButtonGroup } from 'react-native-elements'; 
 import {getDate,getTime} from '../functions/HelperFunctions';
 import DoItem from '../components/DoItem.js';
 import firebase from 'firebase';
@@ -10,6 +10,8 @@ import '@firebase/firestore';
 Do tab represents the tasks delegated to the user, which could be in-progress, new (pending user acknowledgement), or tasks already done. 
 */
 
+var {height, width} = Dimensions.get('window');
+
 class Do extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +20,7 @@ class Do extends Component {
 
   state = {
     data: [],
+    selectedIndex: 2
   }
 
   componentDidMount() {
@@ -47,18 +50,31 @@ class Do extends Component {
     this.setState({data: tasksArray});
   }
 
-  _renderHeader = () => {
+  _renderButtonGroup = () => {
+    const buttons = ['Current', 'New', 'Done'];
+    const { selectedIndex } = this.state.selectedIndex;
+    
     return (
-    <SearchBar 
-      containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
-      inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
-      placeholder="Search"
-      lightTheme={true}
-      round
-    />);
+      <ButtonGroup
+        onPress={() => this._updateIndex}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={{height: height*0.05}}
+        selectedTextStyle={{color: "#FC9700"}}
+      />
+    )
+  }
+
+  /*
+  Helper method called to set the currently selected button from the buttonGroup
+  */
+  _updateIndex = (selectedIndex) => {
+    this.setState({selectedIndex});
   }
 
   _renderItem(item) {
+    const buttons = ['Current', 'New', 'Done'];
+    const {selectedIndex} = this.state
     return (
     <ListItem 
       roundAvatar
@@ -83,7 +99,7 @@ class Do extends Component {
       <View>
         <FlatList
           backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this._renderHeader}
+          ListHeaderComponent = {this._renderButtonGroup}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
           renderItem = {({item}) => this._renderItem(item)}
