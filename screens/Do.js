@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Dimensions } from 'react-native';
+import { FlatList, View, Dimensions, TouchableOpacity } from 'react-native';
 import { ListItem, SearchBarIOS, SearchBar, ButtonGroup } from 'react-native-elements'; 
 import {getDate,getTime} from '../functions/HelperFunctions';
 import DoItem from '../components/DoItem.js';
@@ -15,12 +15,11 @@ var {height, width} = Dimensions.get('window');
 class Do extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      data: [],
+      selectedIndex: 0
+    }
     this.currentUserID = firebase.auth().currentUser.uid;
-  }
-
-  state = {
-    data: [],
-    selectedIndex: 2
   }
 
   componentDidMount() {
@@ -41,7 +40,6 @@ class Do extends Component {
           doc = doc.data();
           doc.due_date = doc.due_date.toDate();
           //convert firebase Timestamp to javascript Date object
-          console.log(doc);
           tasksArray.push(doc);
         });
       });
@@ -50,26 +48,26 @@ class Do extends Component {
     this.setState({data: tasksArray});
   }
 
-  _renderButtonGroup = () => {
-    const buttons = ['Current', 'New', 'Done'];
-    const { selectedIndex } = this.state.selectedIndex;
-    
-    return (
-      <ButtonGroup
-        onPress={this._updateIndex}
-        selectedIndex={selectedIndex}
-        buttons={buttons}
-        containerStyle={{height: height*0.05}}
-        selectedTextStyle={{color: "#FC9700"}}
-      />
-    )
-  }
-
   /*
   Helper method called to set the currently selected button from the buttonGroup
   */
-  _updateIndex = (selectedIndex) => {
-    this.setState({selectedIndex});
+  updateIndex = (selectedIndex) => {
+    this.setState({ selectedIndex })
+  }
+
+  _renderButtonGroup = () => {
+    const buttons = ['Current', 'New', 'Done'];
+    const { selectedIndex } = this.state
+    
+    return (
+      <ButtonGroup
+        onPress={this.updateIndex}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={{height: height*0.05}}
+        selectedButtonStyle={{backgroundColor: "#FC9700"}}
+      />
+    )
   }
 
   _renderItem(item) {
@@ -95,11 +93,21 @@ class Do extends Component {
   }
 
   render() {
+    const buttons = ['Current', 'New', 'Done'];
+    const { selectedIndex } = this.state
     return (
       <View>
+        <ButtonGroup
+          onPress={this.updateIndex}
+          buttons={buttons}
+          selectedIndex={selectedIndex}
+          buttons={buttons}
+          containerStyle={{height: height*0.05}}
+          selectedButtonStyle={{backgroundColor: "#FC9700"}}
+        />
         <FlatList
           backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this._renderButtonGroup}
+          //ListHeaderComponent = {this._renderButtonGroup}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.data}
           renderItem = {({item}) => this._renderItem(item)}
