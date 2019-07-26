@@ -4,17 +4,17 @@ import { createDrawerNavigator, createSwitchNavigator, createAppContainer, creat
 import Icon from '@expo/vector-icons/Ionicons';
 import TabBarIcon from '../components/TabBarIcon';
 
-import Welcome from '../screens/Welcome';
+import Welcome from '../screens/Welcome.js';
 import Dashboard from '../screens/Dashboard';
-import Loading from '../screens/Loading';
+import Loading from '../screens/Loading.js';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Forgot from '../screens/Forgot';
-import DoScreen from '../screens/Do';
-import DelegateScreen from '../screens/Delegate';
-import ContactsScreen from '../screens/Contacts';
-import ContactDetailsScreen from '../screens/ContactDetails';
-import DelegateEmployeeScreen from '../screens/DelegateEmployeeScreen';
+import DoScreen from '../screens/Do.js';
+import DelegateScreen from '../screens/Delegate.js';
+import ContactsScreen from '../screens/Contacts.js';
+import ContactDetailsScreen from '../screens/ContactDetails.js';
+import DelegateEmployeeScreen from '../screens/DelegateEmployee.js';
 
 
 const Do = createStackNavigator({

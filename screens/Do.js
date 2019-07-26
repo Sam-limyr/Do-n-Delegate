@@ -56,7 +56,7 @@ class Do extends Component {
     
     return (
       <ButtonGroup
-        onPress={() => this._updateIndex}
+        onPress={this._updateIndex}
         selectedIndex={selectedIndex}
         buttons={buttons}
         containerStyle={{height: height*0.05}}

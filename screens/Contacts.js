@@ -16,7 +16,6 @@ class Contacts extends Component {
 
   componentDidMount() {
     this.makeRemoteRequest();
-    console.log(this.currentUserID);
   }
 
   makeRemoteRequest = async () => {
