@@ -86,7 +86,7 @@ class Do extends Component {
       rightTitleStyle={{ color: 'red' }}
       rightSubtitle={getTime(item.due_date)}
       rightSubtitleStyle={{ color: 'red'}}
-      onPress={() => this.props.navigation.navigate("ContactDetails", {item})}
+      onPress={() => this.props.navigation.navigate("DoDetails", {item})}
       //could be like employer / employee state
       //subtitle = {item.email}
     />);
