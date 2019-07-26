@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import AddNewEmployeeItem from '../components/AddNewEmployeeItem';
+import DelegateEmployee from '../screens/DelegateEmployee.js';
 import AddNewTaskItem from '../components/AddNewTaskItem';
 
 class Delegate extends Component {
@@ -30,10 +31,23 @@ class Delegate extends Component {
             keyExtractor = {(item, index) => index.toString()}
             data = {this.state.data}
             renderItem = {({item}) => 
-              <AddNewTaskItem
+              <ListItem
+                roundAvatar
+                containerStyle={ {backgroundColor: "#FBF9F9"}}
+                bottomDivider={true}
+                chevron={true}
+                //leftAvatar= {{source: {uri: item.profile_picture} }}
+                title={`${item.name}`}
+                subtitle={`By: ${item.employer_name}`}
+                onPress={() => this.props.navigation.navigate("DelegateEmployee", {item})}
+              />
+              
+              /*
+              <DelegateEmployeeScreen
                 employeeName={item.name} // is the employee's name
                 profilePicture={item.picture} // is the profile picture of the employee
               />
+              */
             }
           />
         </View>
