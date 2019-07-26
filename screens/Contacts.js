@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, Dimensions } from 'react-native';
 import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements'; 
 import firebase from 'firebase';
 import '@firebase/firestore'; 
+
+var {height, width} = Dimensions.get('window');
 
 class Contacts extends Component {
   constructor(props) {
@@ -41,8 +43,8 @@ class Contacts extends Component {
   _renderHeader = () => {
     return (
     <SearchBar 
-      containerStyle = { {borderTopWidth:0, backgroundColor: '#FC9700'}}
-      inputContainerStyle = { {backgroundColor: "#F2F2f2"}}
+      containerStyle = {{borderTopWidth:0, backgroundColor: '#FC9700'}}
+      inputContainerStyle = {{height: height*0.055, backgroundColor: "#F2F2f2"}}
       placeholder="Search"
       lightTheme={true}
       round
