@@ -4,53 +4,110 @@ import { ListItem } from 'react-native-elements';
 import AddNewEmployeeItem from '../components/AddNewEmployeeItem';
 import DelegateEmployee from '../screens/DelegateEmployee.js';
 import AddNewTaskItem from '../components/AddNewTaskItem';
+import firebase from 'firebase';
+import '@firebase/firestore'; 
 
+/*
+Delegate is the interface through which a user can delegate task to employees. On pressing on a specific employee, the user can view the tasks delegated to that employee on a delegateEmployeeScreen
+*/
 class Delegate extends Component {
-  state = {
-    data: [{name: 'Janice Ross', picture: 'Her Picture'},
-    {name: 'George Whittaker', picture: 'His Picture'}]
+  constructor(props) {
+    super(props);
+    this.currentUserID = firebase.auth().currentUser.uid;
   }
 
-  // Delegate screen is a list of names.
-  // When you press a name, it takes you to screens/DelegateEmployeeScreen
-  // On that screen, you have a list of existing tasks, with an "add new task" button at the top.
-  // That "add new task" button is simply a re-skinned DelegateItem.
-  // TO-DO:
-  //        Create new DelegateItem, which takes user to new screen
-  //        In this new screen, create ListItems/DialogBoxes which display existing tasks (i.e. TaskItems)
-  //        Information to be displayed is the three task states
-  //        Follow-up: Indicator buttons for task completion status beside the tasks
-  
+  state = {
+    data1: [{name: 'Janice Ross', picture: 'Her Picture'},
+    {name: 'George Whittaker', picture: 'His Picture'}],
+    //stores list of employees for current user
+    employeeData: [],
+    //stores all the tasks where current user is an employer. 
+    taskData: [],
+  }
+
+  componentDidMount() {
+    this.makeRemoteGetEmployeeAndTasksRequest();
+  }
+
+  _makeRemoteGetEmployeeRequest = async () => {
+    const employeeArray = [];
+    await firebase
+      .firestore()
+      .collection("users")
+      .doc(`${this.currentUserID}`)
+      .collection("delegate_list")
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+          employeeArray.push(doc.data());
+        });
+      });     
+    this.setState({employeeData: employeeArray}); 
+  }
+
+  _makeRemoteGetTaskRequest = async () => {
+    const tasksArray = [];
+    await firebase
+      .firestore()
+      .collection("tasks")
+      .where("employer_id" ,"==", `${this.currentUserID}`)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+          doc = doc.data();
+          //convert firebase Timestamp to javascript Date object
+          doc.due_date = doc.due_date.toDate();
+          doc.issued_date = doc.issued_date.toDate();
+          tasksArray.push(doc);
+        });
+      });
+    this.setState({taskData: tasksArray});
+  }
+
+  makeRemoteGetEmployeeAndTasksRequest = async () => {
+    this._makeRemoteGetEmployeeRequest();
+    this._makeRemoteGetTaskRequest();
+  }
+
+  /*
+  Retrieves the tasks that are specific to the given employee and current user
+  input: Employee object from employeeData array
+  output: a list of tasks specific to the given employee and current yser
+  */
+  _filterEmployeeTasks(employeeObject) {
+    const employeeID = employeeObject.user_id;
+    let result = this.state.taskData.filter((taskObject) => {
+      return (taskObject.employee_id === employeeID) && (taskObject.employer_id === this.currentUserID);
+    });
+    return result;
+  }
+
+  _renderItem(item) {
+    return (
+    <ListItem 
+      roundAvatar
+      containerStyle={ {backgroundColor: "#FBF9F9"}}
+      bottomDivider={true}
+      chevron={true}
+      leftAvatar= {{source: {uri: item.profile_picture} }}
+      title={`${item.name}`}
+      onPress={() => this.props.navigation.navigate("DelegateEmployee", {
+        taskItems: this._filterEmployeeTasks(item),
+        employeeDetails: item
+      })}
+    />);
+  }
+
   render() {
     return (
       <View>
-        <View>
           <FlatList
             backgroundColor = {"FBF9F9"}
             ListHeaderComponent = {this.renderHeader}
             keyExtractor = {(item, index) => index.toString()}
-            data = {this.state.data}
-            renderItem = {({item}) => 
-              <ListItem
-                roundAvatar
-                containerStyle={ {backgroundColor: "#FBF9F9"}}
-                bottomDivider={true}
-                chevron={true}
-                //leftAvatar= {{source: {uri: item.profile_picture} }}
-                title={`${item.name}`}
-                subtitle={`By: ${item.employer_name}`}
-                onPress={() => this.props.navigation.navigate("DelegateEmployee", {item})}
-              />
-              
-              /*
-              <DelegateEmployeeScreen
-                employeeName={item.name} // is the employee's name
-                profilePicture={item.picture} // is the profile picture of the employee
-              />
-              */
-            }
+            data = {this.state.employeeData}
+            renderItem = {({item}) => this._renderItem(item)}
           />
-        </View>
 
         <View>
           <AddNewEmployeeItem />
