@@ -5,6 +5,7 @@ import {
   View,
   FlatList
 } from 'react-native';
+import { Constants } from 'expo';
 import { ListItem } from 'react-native-elements'; 
 import {getDate,getTime} from '../functions/HelperFunctions';
 import AddNewTaskItem from '../components/AddNewTaskItem';
@@ -32,6 +33,7 @@ class DelegateEmployee extends Component {
       title: `Tasks for ${employeeDetails.name.split(" ")[0]}`,
       headerStyle: {
         backgroundColor: '#FC9700',
+        marginTop: -Constants.statusBarHeight
       },
       headerTintColor: '#FFFFFF',
     };

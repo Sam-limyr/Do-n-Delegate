@@ -5,6 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
+import { Constants } from 'expo';
 import { getDate, getTime } from '../functions/HelperFunctions.js';
 import { Timestamp } from '@firebase/firestore';
 
@@ -16,9 +17,6 @@ class DoDetails extends Component {
   constructor(props) {
     super(props);
     this.details = this.props.navigation.getParam('item', 'NO-ITEM');
-    //console.log(this.details.due_date + " first");
-    //this.details.due_date = this.details.due_date.oneToDate;
-    //console.log(this.details.due_date + " last");
   }
 
 
@@ -28,6 +26,7 @@ class DoDetails extends Component {
       title: `${itemDetails.name}`,
       headerStyle: {
         backgroundColor: '#FC9700',
+        marginTop: -Constants.statusBarHeight
       },
       headerTintColor: '#FFFFFF',
     };

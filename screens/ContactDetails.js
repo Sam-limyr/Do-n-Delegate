@@ -4,12 +4,12 @@ import {
   Text,
   View
 } from 'react-native';
+import { Constants } from 'expo';
 
 class ContactDetails extends Component {
   constructor(props) {
     super(props);
     this.details = this.props.navigation.getParam('item', 'NO-ITEM');
-    console.log(this.details);
   }
   static navigationOptions = ({navigation, navigationOptions}) => {
     const itemDetails = navigation.getParam('item', 'NO-ITEM');
@@ -17,6 +17,7 @@ class ContactDetails extends Component {
       title: `${itemDetails.name}`,
       headerStyle: {
         backgroundColor: '#FC9700',
+        marginTop: -Constants.statusBarHeight
       },
       headerTintColor: '#FFFFFF',
     };
