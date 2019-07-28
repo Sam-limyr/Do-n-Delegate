@@ -21,3 +21,11 @@ output: String of the form HH:MM representing time.
 export function getTime(dateObject) {
   return [_pad(dateObject.getHours()),_pad(dateObject.getMinutes())].join(':');
 }
+
+export function dateObjectEquality(dateObject1, dateObject2) {
+  try {
+    return dateObject1.getTime() === dateObject2.getTime();
+   } catch(err) {
+      console.log("invalid input type, ensure both argument are js Date objects")
+   }
+}

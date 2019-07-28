@@ -25,7 +25,12 @@ const Do = createStackNavigator({
       header: null
     }),
   },
-  DoDetails: DoDetailsScreen,
+  DoDetails: {
+    screen: DoDetailsScreen,
+    navigationOptions: ({navigation}) => ({
+      gesturesEnabled: true
+    })
+  },
 });
 
 Do.navigationOptions = {

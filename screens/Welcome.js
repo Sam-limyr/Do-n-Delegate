@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Expo, { Google } from 'expo';
-import { View, Animated, Dimensions, Image, FlatList, Modal, StyleSheet, ScrollView } from 'react-native';
+import { View, Dimensions, Image, StyleSheet, ScrollView } from 'react-native';
 import Button from 'react-native-button';
 import { Text } from '../components';
 
@@ -120,8 +120,7 @@ class Welcome extends Component {
                 <Button shadow onPress={() => navigation.navigate('SignUp')}>
                     <Text center semibold>Signup</Text>
                 </Button>
-                <Button
-                    onPress={() => this.signInWithGoogleAsync()}>
+                <Button onPress={() => this.signInWithGoogleAsync()}>
                     <Text center semibold>Sign In With Google</Text>
                 </Button>
             </View>

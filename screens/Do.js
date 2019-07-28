@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, View, Dimensions } from 'react-native';
-import { ListItem, ButtonGroup } from 'react-native-elements'; 
-import {getDate,getTime} from '../functions/HelperFunctions';
-import DoItem from '../components/DoItem.js';
+import { FlatList, View, Dimensions, Text } from 'react-native';
+import { ListItem, ButtonGroup, Button, CheckBox } from 'react-native-elements'; 
+import {getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions';
+import CheckedTaskItem from '../components/CheckedTaskItem';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 
@@ -17,7 +17,7 @@ class Do extends Component {
     super(props);
     this.state = {
       data: [],
-      selectedIndex: 0
+      selectedIndex: 0,
     }
     this.currentUserID = firebase.auth().currentUser.uid;
   }
@@ -39,6 +39,7 @@ class Do extends Component {
         querySnapshot.docs.forEach(doc => {
           doc = doc.data();
           doc.due_date = doc.due_date.toDate();
+          doc.issued_date = doc.issued_date.toDate();
           //convert firebase Timestamp to javascript Date object
           tasksArray.push(doc);
         });
@@ -70,22 +71,32 @@ class Do extends Component {
     )
   }
 
+  /*
+  Acknowledges the chosen task. This is achieved by finding this task in the main data array, and updating it's status from "unread" to "in-progress". Subsequently, this task will be removed from the New tab and will appear in the Current tab. 
+  */
+  _acknowledgeTask(item) {
+    for (var task in this.state.data) {
+      task = this.state.data[task];
+      const compare_issued_date = dateObjectEquality(task.issued_date, item.issued_date);
+      const compare_due_date = dateObjectEquality(task.due_date, item.due_date);
+      const compare_name = task.name.toString() === item.name.toString();
+      const compare_description = task.description.toString() === item.description.toString();
+      if (compare_description && compare_due_date && compare_issued_date && compare_name) {
+        task.status = "in-progress";
+        //also, need to update task status in database 
+        //ensure periodic sync with database. 
+        this.setState({state: this.state})
+      }
+      break;
+    }
+  }
+
   _renderItem(item) {
-    const buttons = ['Current', 'New', 'Done'];
-    const {selectedIndex} = this.state
     return (
-    <ListItem 
-      containerStyle={ {backgroundColor: "#FBF9F9"}}
-      bottomDivider={true}
-      chevron={true}
-      title={`${item.name}`}
-      subtitle={`By: ${item.employer_name}`}
-      rightTitle={getDate(item.due_date)}
-      rightTitleStyle={{ color: 'red' }}
-      rightSubtitle={getTime(item.due_date)}
-      rightSubtitleStyle={{ color: 'red'}}
-      onPress={() => this.props.navigation.navigate("DoDetails", {item})}
-    />);
+    <CheckedTaskItem
+      navigation={this.props.navigation}
+      item={item}
+    />)
   }
 
   /*
