@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { FlatList, View, Dimensions, TouchableOpacity } from 'react-native';
-import { ListItem, SearchBarIOS, SearchBar, ButtonGroup } from 'react-native-elements'; 
+import { FlatList, View, Dimensions } from 'react-native';
+import { ListItem, ButtonGroup } from 'react-native-elements'; 
 import {getDate,getTime} from '../functions/HelperFunctions';
 import DoItem from '../components/DoItem.js';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 
 /*
-Do tab represents the tasks delegated to the user, which could be in-progress, new (pending user acknowledgement), or tasks already done. 
+Do tab represents the tasks delegated to the user, which could be in-progress, unread (new tasks pending user acknowledgement), or tasks already done. 
 */
 
 var {height, width} = Dimensions.get('window');
@@ -75,11 +75,9 @@ class Do extends Component {
     const {selectedIndex} = this.state
     return (
     <ListItem 
-      roundAvatar
       containerStyle={ {backgroundColor: "#FBF9F9"}}
       bottomDivider={true}
       chevron={true}
-      //leftAvatar= {{source: {uri: item.profile_picture} }}
       title={`${item.name}`}
       subtitle={`By: ${item.employer_name}`}
       rightTitle={getDate(item.due_date)}
@@ -87,9 +85,33 @@ class Do extends Component {
       rightSubtitle={getTime(item.due_date)}
       rightSubtitleStyle={{ color: 'red'}}
       onPress={() => this.props.navigation.navigate("DoDetails", {item})}
-      //could be like employer / employee state
-      //subtitle = {item.email}
     />);
+  }
+
+  /*
+  Helper method to retrieve data based on selectedIndex of Button Group. 
+  For example, if current tab is selected, only tasks that are "in-progress" should be displaying by render methods.
+  Input: selectedIndex value
+  Output: a list of tasks to be rendered.
+  */ 
+  _filterTasksByStatus(selectedIndex) {
+    switch(selectedIndex) {
+      //Current 
+      case 0:
+        return this.state.data.filter((taskObject) => {
+          return (taskObject.status === "in-progress");
+        });
+      //New
+      case 1:
+        return this.state.data.filter((taskObject) => {
+          return (taskObject.status === "unread");
+        });
+      //Done
+      case 2:
+          return this.state.data.filter((taskObject) => {
+            return (taskObject.status === "done");
+          });
+    }
   }
 
   render() {
@@ -109,18 +131,8 @@ class Do extends Component {
           backgroundColor = {"FBF9F9"}
           //ListHeaderComponent = {this._renderButtonGroup}
           keyExtractor = {(item, index) => index.toString()}
-          data = {this.state.data}
+          data = {this._filterTasksByStatus(selectedIndex)}
           renderItem = {({item}) => this._renderItem(item)}
-          /*
-          renderItem = {({item}) => 
-            <DoItem
-              employerName={item.name} // is the employer's name
-              profilePicture={item.picture} // is the profile picture of the employer
-              taskName={item.taskName} // is the task name provided by employer
-              taskDescription={item.taskDescription} // is the additional information provided by employer
-              taskDeadline={item.taskDeadline} // is a number pulled via a Date() object
-            />
-          }*/
         />
       </View>
     );
