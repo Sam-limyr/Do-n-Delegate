@@ -5,7 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { getDate, getTime } from '../functions/HelperFunctions.js';
 import { Timestamp } from '@firebase/firestore';
 

@@ -5,7 +5,7 @@ import {
   View,
   FlatList
 } from 'react-native';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { ListItem } from 'react-native-elements'; 
 import {getDate,getTime} from '../functions/HelperFunctions';
 import AddNewTaskItem from '../components/AddNewTaskItem';
@@ -49,7 +49,6 @@ class DelegateEmployee extends Component {
   
   
   _renderTask(item) {
-    console.log(item);
     return (
     <ListItem 
       containerStyle={ {backgroundColor: "#FBF9F9"}}
