@@ -17,8 +17,6 @@ class Delegate extends Component {
   }
 
   state = {
-    data1: [{name: 'Janice Ross', picture: 'Her Picture'},
-    {name: 'George Whittaker', picture: 'His Picture'}],
     //stores list of employees for current user
     employeeData: [],
     //stores all the tasks where current user is an employer. 
@@ -91,10 +89,11 @@ class Delegate extends Component {
       chevron={true}
       leftAvatar= {{source: {uri: item.profile_picture} }}
       title={`${item.name}`}
-      onPress={() => this.props.navigation.navigate("DelegateEmployee", {
+      onPress={() => {
+        this.props.navigation.navigate("DelegateEmployee", {
         taskItems: this._filterEmployeeTasks(item),
-        employeeDetails: item
-      })}
+        employeeDetails: item})
+      }}
     />);
   }
 

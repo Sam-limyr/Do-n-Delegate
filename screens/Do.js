@@ -3,6 +3,7 @@ import { FlatList, View, Dimensions, Text } from 'react-native';
 import { ListItem, ButtonGroup, Button, CheckBox } from 'react-native-elements'; 
 import {getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions';
 import CheckedTaskItem from '../components/CheckedTaskItem';
+import TaskItem from '../components/TaskItem';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 
@@ -20,6 +21,8 @@ class Do extends Component {
       selectedIndex: 0,
     }
     this.currentUserID = firebase.auth().currentUser.uid;
+    //Bind the this context in order to pass callback function as props to child
+    this.acknowledgeTask = this.acknowledgeTask.bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +77,7 @@ class Do extends Component {
   /*
   Acknowledges the chosen task. This is achieved by finding this task in the main data array, and updating it's status from "unread" to "in-progress". Subsequently, this task will be removed from the New tab and will appear in the Current tab. 
   */
-  _acknowledgeTask(item) {
+  acknowledgeTask(item) {
     for (var task in this.state.data) {
       task = this.state.data[task];
       const compare_issued_date = dateObjectEquality(task.issued_date, item.issued_date);
@@ -91,12 +94,35 @@ class Do extends Component {
     }
   }
 
-  _renderItem(item) {
+  /*
+  Tasks that are new are rendered differently (ie have a check box for acknowledgement) from Current and Done tasks. This function dispatches the 
+  correct rendering methods
+  */
+  _renderItemByStatus(selectedIndex, item) {
+    if (selectedIndex == 1) {
+      return this.__renderNewItem(item);
+    } else {
+      return this.__renderNormalTaskItem(item);
+    }
+  }
+
+  __renderNewItem(item) {
     return (
-    <CheckedTaskItem
-      navigation={this.props.navigation}
-      item={item}
-    />)
+      <CheckedTaskItem
+        acknowledgeTask={this.acknowledgeTask}
+        navigation={this.props.navigation}
+        item={item}
+      />
+    )
+  }
+
+  __renderNormalTaskItem(item) {
+    return (
+      <TaskItem
+        navigation={this.props.navigation}
+        item={item}
+      />
+    )
   }
 
   /*
@@ -143,7 +169,7 @@ class Do extends Component {
           //ListHeaderComponent = {this._renderButtonGroup}
           keyExtractor = {(item, index) => index.toString()}
           data = {this._filterTasksByStatus(selectedIndex)}
-          renderItem = {({item}) => this._renderItem(item)}
+          renderItem = {({item}) => this._renderItemByStatus(selectedIndex, item)}
         />
       </View>
     );

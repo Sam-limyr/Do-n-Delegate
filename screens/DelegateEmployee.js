@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import { ListItem } from 'react-native-elements'; 
-import {getDate,getTime} from '../functions/HelperFunctions';
+import TaskItem from '../components/TaskItem';
 import AddNewTaskItem from '../components/AddNewTaskItem';
 
 /*
@@ -50,16 +50,9 @@ class DelegateEmployee extends Component {
   
   _renderTask(item) {
     return (
-    <ListItem 
-      containerStyle={ {backgroundColor: "#FBF9F9"}}
-      bottomDivider={true}
-      chevron={true}
-      title={`${item.name}`}
-      subtitle={`By: ${item.employer_name}`}
-      rightTitle={getDate(item.due_date)}
-      rightTitleStyle={{ color: 'red' }}
-      rightSubtitle={getTime(item.due_date)}
-      rightSubtitleStyle={{ color: 'red'}}
+    <TaskItem
+      navigation={this.props.navigation}
+      item={item}
     />);
   }
 

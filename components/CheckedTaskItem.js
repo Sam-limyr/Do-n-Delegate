@@ -28,7 +28,9 @@ class CheckedTaskItem extends Component {
           checked: this.state.checked,
           onPress: () => {
             this.setState({checked: !this.state.checked})
-            //this._acknowledgeTask(item)
+            setTimeout(() => {
+              this.props.acknowledgeTask(this.props.item);
+            }, 500);
           }
         }}
         onPress={this._onSelectTask}
