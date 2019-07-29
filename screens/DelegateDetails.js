@@ -33,8 +33,6 @@ class DelegateDetails extends Component {
     };
   };
 
-  
-  //Task Deadline: {this.details.due_date.getDate()}{" at "}{this.details.due_date.getTime()}
   render() {
     return (
       <View style={{flex:1, flexDirection: 'column', backgroundColor: '#FBF9F9',}}>
@@ -43,6 +41,7 @@ class DelegateDetails extends Component {
           <Text style={styles.taskTitle}>
             {this.details.name}
           </Text>
+          <Text style={styles.taskStatus}>Status: {this.details.status}</Text>
         </View>
 
         <View style={styles.personDetails}>
@@ -103,7 +102,7 @@ class DelegateDetails extends Component {
 
 const styles = StyleSheet.create({
   topText: {
-    flex: 1,
+    flex: 1.5,
     color: '#FBF9F9',
     paddingTop: 20
   },
@@ -111,11 +110,20 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'left',
     fontWeight: '700',
-    paddingHorizontal: 20
+    paddingLeft: 20
+  },
+  taskStatus: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontWeight: '400',
+    color: 'red',
+    paddingTop: 5,
+    paddingLeft: 20
   },
   personDetails: {
-    flex: 1.5,
+    flex: 1.3,
     paddingHorizontal: 5,
+    paddingVertical: 10,
     flexDirection: 'row',
   },
   issuerDetails: {
@@ -149,7 +157,6 @@ const styles = StyleSheet.create({
   },
   descriptionDetails: {
     flex: 3,
-    paddingTop: 5,
     paddingHorizontal: 20,
   },
   descriptionTitle: {
