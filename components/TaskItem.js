@@ -10,7 +10,9 @@ class TaskItem extends Component {
   _onSelectTask = () => {
     let item = this.props.item;
     let navLink = this.props.navLink;
-    this.props.navigation.navigate(navLink.toString(), {item})
+    let localDeleteTask = this.props.localDeleteTask;
+    console.log("hello");
+    this.props.navigation.navigate(navLink.toString(), {item, localDeleteTask})
   }
  
   render() {

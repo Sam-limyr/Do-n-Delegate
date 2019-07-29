@@ -37,12 +37,12 @@ class DelegateDetails extends Component {
     };
   };
 
-  /*
-  Deletes this task from the database, then redirects the user back to the previous screen. Forcefully triggers state update of the parent in the process, to auto update the results. 
-  */
- deleteTask() {
-  this.deleteTaskFromDatabase();
- }
+  _deleteTask = () => {
+    const { navigation } = this.props;
+    navigation.goBack();
+    navigation.state.params.localDeleteTask(this.details);
+  }
+  
 
   render() {
     return (
@@ -101,8 +101,14 @@ class DelegateDetails extends Component {
             raised
             buttonStyle={{backgroundColor: 'red'}}
             //Button is disabled if it is pressed once already
-            disabled={this.state.isDisabled == true}
-            onPress={() => this.deleteTask()}
+            disabled={this.state.isDisabled}
+            onPress={() => {
+                this.setState({isDisabled: !this.state.isDisabled})
+                setTimeout(() => {
+                  this._deleteTask();
+                }, 500);
+              }
+            }
           />
         </View>
 

@@ -9,6 +9,7 @@ import Constants from 'expo-constants';
 import { ListItem } from 'react-native-elements'; 
 import TaskItem from '../components/TaskItem';
 import AddNewTaskItem from '../components/AddNewTaskItem';
+import { getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions.js';
 
 /*
 DelegateEmployee Screen displays tasks associated with this user and employee
@@ -21,10 +22,9 @@ class DelegateEmployee extends Component {
     super(props);
     this.taskItems = this.props.navigation.getParam('taskItems', 'NO-TASK-ITEMS');
     this.employeeDetails = this.props.navigation.getParam('employeeDetails', 'NO-EMPLOYEE-DETAILS');
-  }
-
-  state = {
-    taskData: [],
+    this.state = {
+      taskData: this.taskItems
+    }
   }
 
   static navigationOptions = ({navigation, navigationOptions}) => {
@@ -55,7 +55,29 @@ class DelegateEmployee extends Component {
       navigation={this.props.navigation}
       item={item}
       navLink={navLink}
+      localDeleteTask={this.localDeleteTask}
     />);
+  }
+
+  localDeleteTask = item => {
+    console.log("entered function");
+    var arrayCopy = this.state.taskData;
+    for (var task in this.state.taskData) {
+      task = this.state.taskData[task];
+      const compare_issued_date = dateObjectEquality(task.issued_date, item.issued_date);
+      const compare_due_date = dateObjectEquality(task.due_date, item.due_date);
+      const compare_name = task.name.toString() === item.name.toString();
+      const compare_description = task.description.toString() === item.description.toString();
+      if (compare_description && compare_due_date && compare_issued_date && compare_name) {
+        arrayCopy.splice(task, 1);
+        //also, need to update task status in database 
+        //ensure periodic sync with database. 
+        this.setState({taskData: arrayCopy});
+      }
+      break;
+    }
+    this.setState({state: this.state})
+    console.log(this.state.taskData);
   }
 
   render() {
@@ -67,6 +89,7 @@ class DelegateEmployee extends Component {
           ListHeaderComponent = {this._renderHeader}
           keyExtractor = {(item, index) => index.toString()}
           data = {this.state.taskData}
+          extraData={this.state}
           renderItem = {({item}) => this._renderTask(item)}
         />
 
