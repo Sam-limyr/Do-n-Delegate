@@ -81,8 +81,7 @@ export default class AddNewTaskItem extends Component {
     return (
       <View ref={component => this._root = component} {...this.props}>
         <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-            <Text style={styles.words}>{ this.props.employeeName }</Text>
-            <Text style={styles.words}>{ this.props.profilePicture }</Text>
+          <Text style={styles.words}>Add New Task</Text>
         </TouchableOpacity>
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title children="Delegate a Task and Deadline" />
