@@ -3,11 +3,12 @@ import { Alert, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Button } from 'react-native-elements';
 import Dialog from "react-native-dialog";
  
-export default class AddNewEmployeeItem extends Component {
+export default class AddNewContactItem extends Component {
   state = {
     dialogVisible: false,
     currentNewEmployee: "",
-    currentProfilePicture: "<Placeholder Photo>" // this would be pulled from firebase in the final version
+    currentProfilePicture: "<Placeholder Photo>", // this would be pulled from firebase in the final version
+    currentEmailAddress: "kathy.lim@example.com"
   };
  
   showDialog = () => {
@@ -38,7 +39,7 @@ export default class AddNewEmployeeItem extends Component {
     } else {
       Alert.alert(
         'Confirm user selection\n',
-        this.state.currentProfilePicture + '\n\nThis is the profile picture of user name "'
+        this.state.currentEmailAddress+ '\n\nThis is the email of user name "'
         + this.state.currentNewEmployee + '". Please confirm that it is the intended user.',
         [
           { text: 'Cancel' },
@@ -65,17 +66,22 @@ export default class AddNewEmployeeItem extends Component {
     return (
       <View style={styles.button}>
         <Button
-          title="Add New Employee"
+          title="Add New Contact"
           raised
           onPress={this.showDialog}
         />
         <Dialog.Container visible={this.state.dialogVisible}>
-          <Dialog.Title children="Type in new employee's name" />
-          <Dialog.Input placeholder="New employee's username"
+          <Dialog.Title children="Type in new contact's name" />
+          <Dialog.Input placeholder="New contact's name"
                         onChangeText={(currentNewEmployee) => this.setState({currentNewEmployee})}
                         wrapperStyle={styles.inputBox} />
           <Dialog.Button label="Cancel" onPress={this.hideDialog} />
-          <Dialog.Button label="Submit" onPress={this.handleSubmit} />
+          <Dialog.Button label="Submit" onPress={() => {
+            setTimeout(() => {
+              this.handleSubmit()
+            }, 500);
+          }}
+          />
         </Dialog.Container>
       </View>
     );

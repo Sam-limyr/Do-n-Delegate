@@ -1,6 +1,7 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createDrawerNavigator, createSwitchNavigator, createAppContainer, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Platform, View, SafeAreaView } from 'react-native';
+import { Button } from 'react-native-elements';
+import { createDrawerNavigator, createSwitchNavigator, createAppContainer, createStackNavigator, createBottomTabNavigator, DrawerItems } from 'react-navigation';
 import Icon from '@expo/vector-icons/Ionicons';
 import TabBarIcon from '../components/TabBarIcon';
 
@@ -17,6 +18,9 @@ import ContactDetailsScreen from '../screens/ContactDetails.js';
 import DoDetailsScreen from '../screens/DoDetails.js';
 import DelegateEmployeeScreen from '../screens/DelegateEmployee.js';
 import DelegateDetailsScreen from '../screens/DelegateDetails.js';
+import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import firebase from 'firebase';
 
 
 const Do = createStackNavigator({
@@ -147,14 +151,32 @@ const DashboardStackNavigator = createStackNavigator({
     
 const AppDrawerNavigator = createDrawerNavigator({
   Dashboard: DashboardStackNavigator,
+  Settings: SettingsScreen,
+  Profile: ProfileScreen,
 }, {
   drawerWidth: 255,
+  drawerBackgroundColor: "#FFFFFF",
   contentOptions: {
     activeTintColor: '#ffffff',
-    inactiveTintColor: '#FBF9F9',
+    inactiveTintColor: '#000000',
     activeBackgroundColor: '#FC9700',
-    inactiveBackgroundColor: '#ffffff',
-  }
+    inactiveBackgroundColor: '#FBF9F9',
+  },
+  contentComponent:(props) => (
+    <View style={{flex:1}}>
+        <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+            <DrawerItems {...props} />
+            <Button
+              title="Logout"
+              buttonStyle={{marginHorizontal: 10}}
+              onPress={() => firebase.auth().signOut()}
+            />
+        </SafeAreaView>
+    </View>
+),
+drawerOpenRoute: 'DrawerOpen',
+drawerCloseRoute: 'DrawerClose',
+drawerToggleRoute: 'DrawerToggle'
 });
 
 const RootNavigator = createSwitchNavigator({

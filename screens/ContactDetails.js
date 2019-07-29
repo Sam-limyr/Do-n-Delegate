@@ -4,7 +4,8 @@ import {
   Text,
   View
 } from 'react-native';
-import { Constants } from 'expo';
+import { Card, Button } from 'react-native-elements';
+import Constants from 'expo-constants';
 
 class ContactDetails extends Component {
   constructor(props) {
@@ -24,13 +25,28 @@ class ContactDetails extends Component {
   };
 
   render() {
+    const imageUri = this.details.profile_picture;
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Name: {this.details.name}{"\n"}
-          email: {this.details.gmail}{"\n"}
-          Relationship: {this.details.relationship}
-        </Text>
+
+        <View style={{paddingTop:0}}>
+          <Card
+          containerStyle={{backgroundColor:"#FBF9F9"}}
+            title={this.details.name}
+            image={{ uri: imageUri}}
+            imageProps={{height: 20, width:20}}>
+            
+            <Text style={styles.title}>
+              Name: {this.details.name}{"\n"}
+              email: {this.details.gmail}{"\n"}
+              Relationship: {this.details.relationship}
+            </Text>
+            <Button
+              backgroundColor='#03A9F4'
+              buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+              title='Delete Contact' />
+          </Card>
+        </View>
       </View>
     );
   }
@@ -41,12 +57,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    //backgroundColor: '#F5FCFF',
+    backgroundColor: "#FBF9F9"
   },
   title: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    marginBottom: 10
   }
 });
 

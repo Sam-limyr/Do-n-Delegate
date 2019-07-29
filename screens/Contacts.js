@@ -3,6 +3,8 @@ import { Text, View, FlatList, Dimensions } from 'react-native';
 import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements'; 
 import firebase from 'firebase';
 import '@firebase/firestore'; 
+import { Button } from 'react-native-elements';
+import AddNewContactItem from '../components/AddNewContactItem';
 
 var {height, width} = Dimensions.get('window');
 
@@ -55,7 +57,7 @@ class Contacts extends Component {
     return (
     <ListItem 
       roundAvatar
-      containerStyle={ {backgroundColor: "#FBF9F9"}}
+      containerStyle={{backgroundColor: "#FBF9F9"}}
       bottomDivider={true}
       chevron={true}
       leftAvatar= {{source: {uri: item.profile_picture} }}
@@ -68,15 +70,21 @@ class Contacts extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor: "#FC9700"}}>
-        <FlatList 
-          backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this._renderHeader}
-          keyExtractor = {(item, index) => index.toString()}
-          data = {this.state.data}
-          extraData={this.state}
-          renderItem = {({item}) => this._renderItem(item)}
-        />
+      <View style={{flex:1,flexDirection:'column'}}>
+        <View style={{flex: 7}}>
+          <FlatList 
+            backgroundColor = {"#FBF9F9"}
+            ListHeaderComponent = {this._renderHeader}
+            keyExtractor = {(item, index) => index.toString()}
+            data = {this.state.data}
+            extraData={this.state}
+            renderItem = {({item}) => this._renderItem(item)}
+          />
+        </View>
+        <View style={{flex:1}}>
+          <AddNewContactItem
+          />
+        </View>
       </View>
     )
   }

@@ -91,17 +91,18 @@ class DelegateEmployee extends Component {
   render() {
     return (
       <View style={styles.container} ref={component => this._root = component} {...this.props}>
+        <View style={{flex: 7}}>
+          <FlatList
+            backgroundColor = {"FBF9F9"}
+            ListHeaderComponent = {this._renderHeader}
+            keyExtractor = {(item, index) => index.toString()}
+            data = {this.state.taskData}
+            extraData={this.state}
+            renderItem = {({item}) => this._renderTask(item)}
+          />
+        </View>
 
-        <FlatList
-          backgroundColor = {"FBF9F9"}
-          ListHeaderComponent = {this._renderHeader}
-          keyExtractor = {(item, index) => index.toString()}
-          data = {this.state.taskData}
-          extraData={this.state}
-          renderItem = {({item}) => this._renderTask(item)}
-        />
-
-        <View>
+        <View style={{flex: 1, paddingTop:-5}}>
           <AddNewTaskItem
             cheeseTheSystem={this.cheeseTheSystem}
             employeeDetails={this.employeeDetails}
@@ -115,9 +116,8 @@ class DelegateEmployee extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    flex:1,
+    flexDirection: 'column'
   },
   title: {
     fontSize: 20,

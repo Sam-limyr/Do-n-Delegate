@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Alert, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Dialog from "react-native-dialog";
+import { Button } from 'react-native-elements';
  
 export default class AddNewTaskItem extends Component {
   state = {
@@ -77,10 +78,12 @@ export default class AddNewTaskItem extends Component {
  
   render() {
     return (
-      <View ref={component => this._root = component} {...this.props}>
-        <TouchableOpacity onPress={this.showDialog} style={styles.button}>
-          <Text style={styles.words}>Add New Task</Text>
-        </TouchableOpacity>
+      <View style={styles.button} ref={component => this._root = component} {...this.props}>
+        <Button
+          title="Add New Task"
+          raised
+          onPress={this.showDialog}
+        />
         <Dialog.Container visible={this.state.dialogVisible}>
           <Dialog.Title children="Delegate a Task and Deadline" />
           <Dialog.Input placeholder="Task Name"
@@ -108,17 +111,10 @@ container: {
     paddingVertical: 50
 },
 button: {
-    alignItems: 'center',
-    backgroundColor: '#FFBB00',
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
-    borderColor: '#FFAA00',
-    borderTopEndRadius: 10,
-    borderTopStartRadius: 10,
-    borderWidth: 4,
-    marginHorizontal: 40,
-    marginVertical: 10,
-    padding: 25
+  flex: 1,
+  paddingTop: 10,
+  paddingBottom: 15,
+  paddingHorizontal: 30,
 },
 inputBox: {
     height: 40,

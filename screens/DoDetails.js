@@ -33,6 +33,12 @@ class DoDetails extends Component {
     };
   };
 
+  _completeTask = () => {
+    const { navigation } = this.props;
+    navigation.goBack();
+    navigation.state.params.completeTask(this.details);
+  }
+
   render() {
     return (
       <View style={{flex:1, flexDirection: 'column', backgroundColor: '#FBF9F9',}}>
@@ -91,7 +97,12 @@ class DoDetails extends Component {
             backgroundColor={'red'}
             //Button is disabled if it is already a done task
             disabled={this.details.status==="done" ? true: false}
-            //onpress method needed
+            onPress={() => {
+              setTimeout(() => {
+                this._completeTask();
+              }, 500);
+            }
+          }
           />
         </View>
 

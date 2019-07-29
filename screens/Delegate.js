@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Button } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import AddNewEmployeeItem from '../components/AddNewEmployeeItem';
 import DelegateEmployee from '../screens/DelegateEmployee.js';
@@ -92,14 +92,17 @@ class Delegate extends Component {
       onPress={() => {
         this.props.navigation.navigate("DelegateEmployee", {
         taskItems: this._filterEmployeeTasks(item),
-        employeeDetails: item})
+        employeeDetails: item,
+        localDeleteTask: this._localDeleteTask
+      })
       }}
     />);
   }
 
   render() {
     return (
-      <View>
+      <View style={{flex:1,flexDirection: 'column'}}>
+        <View style={{flex: 7}}>
           <FlatList
             backgroundColor = {"FBF9F9"}
             ListHeaderComponent = {this.renderHeader}
@@ -107,9 +110,11 @@ class Delegate extends Component {
             data = {this.state.employeeData}
             renderItem = {({item}) => this._renderItem(item)}
           />
+        </View>
 
-        <View>
-          <AddNewEmployeeItem />
+        <View style={{flex:1}}>
+          <AddNewEmployeeItem
+          />
         </View>
       </View>
     );
