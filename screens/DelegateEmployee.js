@@ -71,10 +71,10 @@ class DelegateEmployee extends Component {
         />
 
         <View>
-          <AddNewTaskItem 
+          <AddNewTaskItem>
             employeeName={this.props.employeeName}
             profilePicture={this.props.profilePicture}
-          />
+          </AddNewTaskItem>       
         </View>
 
       </View>
