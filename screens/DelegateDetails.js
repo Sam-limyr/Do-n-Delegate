@@ -20,6 +20,10 @@ class DelegateDetails extends Component {
     this.details = this.props.navigation.getParam('item', 'NO-ITEM');
   }
 
+  state = {
+    isDisabled:false,
+  }
+
 
   static navigationOptions = ({navigation, navigationOptions}) => {
     const itemDetails = navigation.getParam('item', 'NO-ITEM');
@@ -32,6 +36,13 @@ class DelegateDetails extends Component {
       headerTintColor: '#FFFFFF',
     };
   };
+
+  /*
+  Deletes this task from the database, then redirects the user back to the previous screen. Forcefully triggers state update of the parent in the process, to auto update the results. 
+  */
+ deleteTask() {
+  this.deleteTaskFromDatabase();
+ }
 
   render() {
     return (
@@ -86,12 +97,12 @@ class DelegateDetails extends Component {
 
         <View style={styles.bottomText}>
           <Button
-            title="Finish Task"
+            title="Delete Task"
             raised
-            backgroundColor={'red'}
-            //Button is disabled if it is already a done task
-            disabled={this.details.status==="done" ? true: false}
-            //onpress method needed
+            buttonStyle={{backgroundColor: 'red'}}
+            //Button is disabled if it is pressed once already
+            disabled={this.state.isDisabled == true}
+            onPress={() => this.deleteTask()}
           />
         </View>
 
