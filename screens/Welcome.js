@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Expo, { Google } from 'expo';
-import { View, Dimensions, Image, StyleSheet, ScrollView } from 'react-native';
-import Button from 'react-native-button';
+import { TouchableOpacity, View, Dimensions, Image, StyleSheet, ScrollView } from 'react-native';
 import { Text } from '../components';
 
 const { width, height } = Dimensions.get('window');
@@ -114,15 +113,20 @@ class Welcome extends Component {
                     style={styles.image}
                     source={require('../assets/herologo.png')}
                 />
-                <Button onPress={() => navigation.navigate('Login')}>
-                    <Text center semibold white>Log in</Text>
-                </Button>
-                <Button shadow onPress={() => navigation.navigate('SignUp')}>
-                    <Text center semibold>Signup</Text>
-                </Button>
-                <Button onPress={() => this.signInWithGoogleAsync()}>
-                    <Text center semibold>Sign In With Google</Text>
-                </Button>
+                <Text>{`\n\n`}</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.text}>Log In</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={styles.text}>Sign Up</Text>
+                </TouchableOpacity>
+                <Text style={styles.textPadding}>{`\n`}</Text>
+                <TouchableOpacity style={styles.button} onPress={() => this.signInWithGoogleAsync()}>
+                    <View style={styles.googleContainer}>
+                        <Image style={styles.google} source={require('../assets/googleIcon.png')} />
+                        <Text style={styles.googleText}>    Sign Up with Google</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
         )   
     }
@@ -131,15 +135,44 @@ class Welcome extends Component {
 export default Welcome;
 
 const styles = StyleSheet.create({
+    button: {
+        alignItems: 'center',
+        backgroundColor: '#ECECEC',
+        borderBottomEndRadius: 10,
+        borderBottomStartRadius: 10,
+        borderColor: '#CCCCCC',
+        borderTopEndRadius: 10,
+        borderTopStartRadius: 10,
+        borderWidth: 4,
+        marginHorizontal: 40,
+        marginTop: 5,
+        marginBottom: 15,
+        padding: 15
+    },
     container: {
         backgroundColor: '#FC9700',
         flex: 1,
+    },
+    google: {
+        left: 0,
+        top: 0,
+        width: 50,
+        height: 50,
+    },
+    googleContainer: {
+        flexDirection: 'row',
+    },
+    googleText: {
+        color: '#505050',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginVertical: 15
     },
     image: {
         left: 37,
         top: 67,
         width: 294,
-        height: 262, 
+        height: 262,
     },
     logInButton: {
         position: 'absolute',
@@ -148,6 +181,14 @@ const styles = StyleSheet.create({
         top: 484,
         bottom: 87,
     },
+    text: {
+        color: '#505050',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    textPadding: {
+        fontSize: 8
+    }
   })
 
   
