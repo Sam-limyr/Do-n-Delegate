@@ -22,8 +22,11 @@ class DelegateEmployee extends Component {
     super(props);
     this.taskItems = this.props.navigation.getParam('taskItems', 'NO-TASK-ITEMS');
     this.employeeDetails = this.props.navigation.getParam('employeeDetails', 'NO-EMPLOYEE-DETAILS');
+
+    this.cheeseTheSystem = this.cheeseTheSystem.bind(this);
     this.state = {
-      taskData: this.taskItems
+      taskData: this.taskItems,
+      fillerData: [{due_date: new Date('2019-09-03T16:30:00.000Z'), employer_name: 'Hemanshu Gandhi', issued_date: new Date('2019-07-08T20:45:00.000Z'), employee_name: "Janice Ross", name: "Mop the stairwell", description: "Fourth-floor stairwell", status: "unread"}]
     }
   }
 
@@ -47,6 +50,11 @@ class DelegateEmployee extends Component {
     this._root.setNativeProps(nativeProps);
   };
   
+  cheeseTheSystem = () => {
+    const list = this.state.taskData.concat(this.state.fillerData);
+    this.setState({taskData: list});
+    console.log(this.state.taskData);
+  };
   
   _renderTask(item) {
     let navLink='DelegateDetails';
@@ -94,10 +102,10 @@ class DelegateEmployee extends Component {
         />
 
         <View>
-          <AddNewTaskItem>
-            employeeName={this.props.employeeName}
-            profilePicture={this.props.profilePicture}
-          </AddNewTaskItem>       
+          <AddNewTaskItem
+            cheeseTheSystem={this.cheeseTheSystem}
+            employeeDetails={this.employeeDetails}
+          />       
         </View>
 
       </View>

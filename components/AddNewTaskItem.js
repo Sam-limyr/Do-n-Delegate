@@ -5,13 +5,10 @@ import Dialog from "react-native-dialog";
 export default class AddNewTaskItem extends Component {
   state = {
     dialogVisible: false,
-    incompleteTasks : 0, // number of incomplete tasks that the employee has; not using?
     currentTaskName: "",
     currentTaskDescription: "None",
     currentTaskDeadline: ""
   };
-
-  // TO-DO: Change TouchableOpacity to ListItem?
 
   setNativeProps = (nativeProps) => {
     this._root.setNativeProps(nativeProps);
@@ -67,13 +64,14 @@ export default class AddNewTaskItem extends Component {
  
   sendNewTask = () => {
     Alert.alert(
-      'New Task sent to ' + this.state.employeeName.toString() + '.',
+      'New Task sent to ' + this.props.employeeDetails.name + '.',
       '',
       [
         { text: 'Continue', onPress: () => this.hideDialog() },
       ],
       { cancelable: true },
     );
+    this.props.cheeseTheSystem();
     // Backend: sends employee the new task with details.
   };
  
