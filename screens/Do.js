@@ -112,6 +112,7 @@ class Do extends Component {
         acknowledgeTask={this.acknowledgeTask}
         navigation={this.props.navigation}
         item={item}
+        navLink='DoDetails'
       />
     )
   }
@@ -121,6 +122,7 @@ class Do extends Component {
       <TaskItem
         navigation={this.props.navigation}
         item={item}
+        navLink='DoDetails'
       />
     )
   }

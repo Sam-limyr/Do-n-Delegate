@@ -49,10 +49,12 @@ class DelegateEmployee extends Component {
   
   
   _renderTask(item) {
+    let navLink='DelegateDetails';
     return (
     <TaskItem
       navigation={this.props.navigation}
       item={item}
+      navLink={navLink}
     />);
   }
 

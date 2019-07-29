@@ -16,6 +16,7 @@ import ContactsScreen from '../screens/Contacts.js';
 import ContactDetailsScreen from '../screens/ContactDetails.js';
 import DoDetailsScreen from '../screens/DoDetails.js';
 import DelegateEmployeeScreen from '../screens/DelegateEmployee.js';
+import DelegateDetailsScreen from '../screens/DelegateDetails.js';
 
 
 const Do = createStackNavigator({
@@ -60,6 +61,12 @@ const Delegate = createStackNavigator({
     }),
   },
   DelegateEmployee: DelegateEmployeeScreen,
+  DelegateDetails: {
+    screen: DelegateDetailsScreen,
+    navigationOptions: ({navigation}) => ({
+      gesturesEnabled: true
+    })
+  },
 });
   
 Delegate.navigationOptions = {

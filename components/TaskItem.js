@@ -9,7 +9,8 @@ class TaskItem extends Component {
 
   _onSelectTask = () => {
     let item = this.props.item;
-    this.props.navigation.navigate("DoDetails", {item})
+    let navLink = this.props.navLink;
+    this.props.navigation.navigate(navLink.toString(), {item})
   }
  
   render() {
