@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import { ListItem } from 'react-native-elements';
-import {getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions';
+import { getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions';
  
 class TaskItem extends Component {
   state = {
@@ -12,7 +12,6 @@ class TaskItem extends Component {
     let navLink = this.props.navLink;
     let localDeleteTask = this.props.localDeleteTask;
     let completeTask = this.props.completeTask;
-    console.log(completeTask);
     this.props.navigation.navigate(navLink.toString(), {item, localDeleteTask, completeTask})
   }
  

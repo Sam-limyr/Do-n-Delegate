@@ -3,19 +3,14 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList
+  FlatList,
 } from 'react-native';
 import Constants from 'expo-constants';
 import { ListItem } from 'react-native-elements'; 
 import TaskItem from '../components/TaskItem';
 import AddNewTaskItem from '../components/AddNewTaskItem';
 import { getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions.js';
-
-/*
-DelegateEmployee Screen displays tasks associated with this user and employee
-receives props from delegate when the employee is selected
-Screen also contains one AddNewTaskItem.
-*/
+import firebase from 'firebase';
 
 class DelegateEmployee extends Component {
   constructor(props) {
@@ -23,10 +18,9 @@ class DelegateEmployee extends Component {
     this.taskItems = this.props.navigation.getParam('taskItems', 'NO-TASK-ITEMS');
     this.employeeDetails = this.props.navigation.getParam('employeeDetails', 'NO-EMPLOYEE-DETAILS');
 
-    this.cheeseTheSystem = this.cheeseTheSystem.bind(this);
+    this.submitTaskToDatabase = this.submitTaskToDatabase.bind(this);
     this.state = {
       taskData: this.taskItems,
-      fillerData: [{due_date: new Date('2019-09-03T16:30:00.000Z'), employer_name: 'Hemanshu Gandhi', issued_date: new Date('2019-07-08T20:45:00.000Z'), employee_name: "Janice Ross", name: "Mop the stairwell", description: "Fourth-floor stairwell", status: "unread"}]
     }
   }
 
@@ -50,10 +44,20 @@ class DelegateEmployee extends Component {
     this._root.setNativeProps(nativeProps);
   };
   
-  cheeseTheSystem = () => {
-    const list = this.state.taskData.concat(this.state.fillerData);
-    this.setState({taskData: list});
-    console.log(this.state.taskData);
+  submitTaskToDatabase = (taskName, taskDescription, taskDeadline) => {
+    const newData = [{
+      description: taskDescription,
+      due_date: new Date('2019-09-09T21:09:00.000Z'),
+      employee_id: this.employeeDetails.employee_id,
+      employee_name: this.employeeDetails.employee_name,
+      employer_id: firebase.auth().currentUser.uid,
+      employer_name: firebase.auth().currentUser.displayName,
+      issued_date: Date.now(),
+      name: taskName,
+      status: 'unread',
+    }]
+    const combinedData = this.state.taskData.concat(newData);
+    this.setState({taskData: combinedData});
   };
   
   _renderTask(item) {
@@ -104,7 +108,7 @@ class DelegateEmployee extends Component {
 
         <View style={{flex: 1, paddingTop:-5}}>
           <AddNewTaskItem
-            cheeseTheSystem={this.cheeseTheSystem}
+            submitTaskToDatabase={this.submitTaskToDatabase}
             employeeDetails={this.employeeDetails}
           />       
         </View>

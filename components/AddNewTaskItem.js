@@ -72,7 +72,8 @@ export default class AddNewTaskItem extends Component {
       ],
       { cancelable: true },
     );
-    this.props.cheeseTheSystem();
+    this.props.submitTaskToDatabase(this.state.currentTaskName, 
+      this.state.currentTaskDescription, this.state.currentTaskDeadline);
     // Backend: sends employee the new task with details.
   };
  
