@@ -11,7 +11,8 @@ class CheckedTaskItem extends Component {
   _onSelectTask = () => {
     let item = this.props.item;
     let navLink = this.props.navLink;
-    this.props.navigation.navigate(navLink, {item})
+    let completeTask = this.props.completeTask;
+    this.props.navigation.navigate(navLink, {item, completeTask})
   }
  
   render() {

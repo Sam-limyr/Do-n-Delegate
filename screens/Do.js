@@ -20,9 +20,11 @@ class Do extends Component {
       data: [],
       selectedIndex: 0,
     }
+    console.log(firebase.auth().currentUser);
     this.currentUserID = firebase.auth().currentUser.uid;
     //Bind the this context in order to pass callback function as props to child
     this.acknowledgeTask = this.acknowledgeTask.bind(this);
+    this.completeTask = this.completeTask.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +97,25 @@ class Do extends Component {
   }
 
   /*
+  Completes the chosen task. This is done in a similar way to acknowledge task, where the state of the task is updated from "in-progress" to "done". consequently, the task will disappear from current, and will appear in done
+  */
+  completeTask(item) {
+    for (var task in this.state.data) {
+      task = this.state.data[task];
+      const compare_issued_date = dateObjectEquality(task.issued_date, item.issued_date);
+      const compare_due_date = dateObjectEquality(task.due_date, item.due_date);
+      const compare_name = task.name.toString() === item.name.toString();
+      const compare_description = task.description.toString() === item.description.toString();
+      if (compare_description && compare_due_date && compare_issued_date && compare_name) {
+        task.status = "done";
+        //also, need to update task status in database 
+        //ensure periodic sync with database. 
+        this.setState({state: this.state})
+      }
+      break;
+    }
+  }
+  /*
   Tasks that are new are rendered differently (ie have a check box for acknowledgement) from Current and Done tasks. This function dispatches the 
   correct rendering methods
   */
@@ -110,6 +131,7 @@ class Do extends Component {
     return (
       <CheckedTaskItem
         acknowledgeTask={this.acknowledgeTask}
+        completeTask={this.completeTask}
         navigation={this.props.navigation}
         item={item}
         navLink='DoDetails'
@@ -120,6 +142,7 @@ class Do extends Component {
   __renderNormalTaskItem(item) {
     return (
       <TaskItem
+        completeTask={this.completeTask}
         navigation={this.props.navigation}
         item={item}
         navLink='DoDetails'
@@ -167,7 +190,7 @@ class Do extends Component {
           selectedButtonStyle={{backgroundColor: "#FC9700"}}
         />
         <FlatList
-          backgroundColor = {"FBF9F9"}
+          backgroundColor = {"#FBF9F9"}
           //ListHeaderComponent = {this._renderButtonGroup}
           keyExtractor = {(item, index) => index.toString()}
           data = {this._filterTasksByStatus(selectedIndex)}
