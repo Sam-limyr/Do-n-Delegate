@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import AddNewEmployeeItem from '../components/AddNewEmployeeItem';
-import DelegateEmployee from '../screens/DelegateEmployee.js';
-import AddNewTaskItem from '../components/AddNewTaskItem';
+import AddNewEmployeeItem from '../../components/AddNewEmployeeItem';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 

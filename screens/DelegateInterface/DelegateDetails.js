@@ -8,16 +8,20 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Constants from 'expo-constants';
-import { getDate, getTime } from '../functions/HelperFunctions.js';
+import { getDate, getTime } from '../../functions/HelperFunctions.js';
 import { Timestamp } from '@firebase/firestore';
 
 /*
-Details screen for a Task
+Details screen for a Delegate Task 
 */
-class DoDetails extends Component {
+class DelegateDetails extends Component {
   constructor(props) {
     super(props);
     this.details = this.props.navigation.getParam('item', 'NO-ITEM');
+  }
+
+  state = {
+    isDisabled:false,
   }
 
 
@@ -33,11 +37,12 @@ class DoDetails extends Component {
     };
   };
 
-  _completeTask = () => {
+  _deleteTask = () => {
     const { navigation } = this.props;
     navigation.goBack();
-    navigation.state.params.completeTask(this.details);
+    navigation.state.params.localDeleteTask(this.details);
   }
+  
 
   render() {
     return (
@@ -92,17 +97,18 @@ class DoDetails extends Component {
 
         <View style={styles.bottomText}>
           <Button
-            title="Finish Task"
+            title="Delete Task"
             raised
-            backgroundColor={'red'}
-            //Button is disabled if it is already a done task
-            disabled={this.details.status==="done" ? true: false}
+            buttonStyle={{backgroundColor: 'red'}}
+            //Button is disabled if it is pressed once already
+            disabled={this.state.isDisabled}
             onPress={() => {
-              setTimeout(() => {
-                this._completeTask();
-              }, 500);
+                this.setState({isDisabled: !this.state.isDisabled})
+                setTimeout(() => {
+                  this._deleteTask();
+                }, 500);
+              }
             }
-          }
           />
         </View>
 
@@ -195,4 +201,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DoDetails;
+export default DelegateDetails;

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { FlatList, View, Dimensions, Text } from 'react-native';
 import { ListItem, ButtonGroup, Button, CheckBox } from 'react-native-elements'; 
-import {getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions';
-import CheckedTaskItem from '../components/CheckedTaskItem';
-import TaskItem from '../components/TaskItem';
+import {getDate, getTime, dateObjectEquality } from '../../functions/HelperFunctions';
+import CheckedTaskItem from '../../components/CheckedTaskItem';
+import TaskItem from '../../components/TaskItem';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 

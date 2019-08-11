@@ -4,7 +4,7 @@ import { ListItem, SearchBarIOS, SearchBar } from 'react-native-elements';
 import firebase from 'firebase';
 import '@firebase/firestore'; 
 import { Button } from 'react-native-elements';
-import AddNewContactItem from '../components/AddNewContactItem';
+import AddNewContactItem from '../../components/AddNewContactItem';
 
 var {height, width} = Dimensions.get('window');
 

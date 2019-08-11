@@ -7,10 +7,15 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 import { ListItem } from 'react-native-elements'; 
-import TaskItem from '../components/TaskItem';
-import AddNewTaskItem from '../components/AddNewTaskItem';
-import { getDate, getTime, dateObjectEquality } from '../functions/HelperFunctions.js';
+import TaskItem from '../../components/TaskItem';
+import AddNewTaskItem from '../../components/AddNewTaskItem';
+import { getDate, getTime, dateObjectEquality } from '../../functions/HelperFunctions.js';
 import firebase from 'firebase';
+
+/*
+Used by Delegate Tab, which renders a flatlist, whose contents are DelegateEmployees. For example, Janice Ross would be a DelegateEmployee. 
+DelegateEmployees are passed taskData specific to them.
+*/
 
 class DelegateEmployee extends Component {
   constructor(props) {
