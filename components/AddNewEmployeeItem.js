@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Alert, View, StyleSheet } from "react-native";
 import { Button } from 'react-native-elements';
 import Dialog from "react-native-dialog";
  
@@ -7,7 +7,7 @@ export default class AddNewEmployeeItem extends Component {
   state = {
     dialogVisible: false,
     currentNewEmployee: "",
-    currentProfilePicture: "<Placeholder Photo>" // this would be pulled from firebase in the final version
+    currentProfilePicture: "<Placeholder Photo>" 
   };
  
   showDialog = () => {
