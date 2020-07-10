@@ -1,6 +1,9 @@
 # Do-n-Delegate
 An IOS application developed for Orbital 2019, which improves the efficiency of workplace management.
 
+This application supports an employer-employee relationship, where employers delegate tasks to assigned employees, and employees can indicate their progress on the assigned tasks.
+Future stretch goals include the ability of the employee to show proof-of-work.
+
 ## Guidelines for Hemanshu/Sam
 Step 1 : Clone the repository.
 
